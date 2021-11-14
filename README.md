@@ -1,5 +1,6 @@
 do not forget to check the bashrc file
 
+install `ursim-3.6.1.30595`
 ## How to control the UR5 robot on URSIM using MPC
 ./start-ursim.sh
 
