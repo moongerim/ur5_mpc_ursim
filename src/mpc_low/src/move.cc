@@ -210,12 +210,12 @@ int main(int argc, char **argv)
   // min dist has 10 values for 10 test points:
   double min_dist[10] = {10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000};
   ros::Rate loop_rate(20);
-  myfile.open("data_1011/test/data_0.csv", ios::out); 
+  myfile.open("data_1411/train/data_0.csv", ios::out); 
   int fileseq=0;
   string filename;
   while (ros::ok())
   {
-    if(my_follower.from_high[30]<0.001){
+    if(my_follower.from_high[30]<0.0005){
       printf("------------------Arrived---------------------\n");
     //   // prepare to send commands
     //   // std_msgs::Float64MultiArray joint_vel_values;
@@ -226,7 +226,7 @@ int main(int argc, char **argv)
       myMpcSolver.reinitialize();
       fileseq++;
       myfile.close();
-      filename = "data_1011/test/data_"+to_string(fileseq)+".csv";
+      filename = "data_1411/train/data_"+to_string(fileseq)+".csv";
       myfile.open(filename, ios::out);
       sleep(1);
     }

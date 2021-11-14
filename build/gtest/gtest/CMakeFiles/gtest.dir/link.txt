@@ -1,0 +1,1 @@
+/usr/bin/c++  -fPIC   -shared -Wl,-soname,libgtest.so -o libgtest.so CMakeFiles/gtest.dir/src/gtest-all.cc.o  -L/home/robot/workspaces/ur5_mpc_ursim/build/gtest/gtest/src -lpthread -Wl,-rpath,/home/robot/workspaces/ur5_mpc_ursim/build/gtest/gtest/src 

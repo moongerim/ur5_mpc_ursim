@@ -105,14 +105,11 @@ int main(int argc, char **argv)
 	          my_follower.goal[0], my_follower.goal[1], my_follower.goal[2],my_follower.goal[3], my_follower.goal[4], my_follower.goal[5]);
   // goal in joint space
   // define key trajectory points
-  double read_goal[2][6] = { 2.8, -2.2, -1.0, -0.6, 1.4, 1.1,
-                              0.0, -2.3, -0.9, -0.5, 1.3, 1.0};
+  // double read_goal[2][6] = { 2.8, -2.2, -1.0, -0.6, 1.4, 1.1,
+  //                             0.0, -2.3, -0.9, -0.5, 1.3, 1.0};
 
-  // double read_goal[2][6] = { 2.8, -2.5, -0.9, -0.6, 1.3, 0.0,
-  //                             0.0, -2.4, -0.8, -0.5, 1.4, 0.1};
-
-  // double read_goal[2][6] = { 0.1051, -2.4726, -0.8902, -0.8021, 1.5812, 1.0324,
-  //                            2.8589, -2.5701, -0.7931, -0.7024, 1.4821, 1.1125};
+  double read_goal[2][6] = { 2.8, -2.0, -1.5355, -0.9712, 1.5, 1.1,
+                              0.0, -2.5, -0.82035, -1.5533, 1.0, 0.0};
 
   double static_goal[6] = {read_goal[1][0], read_goal[1][1], read_goal[1][2], read_goal[1][3], read_goal[1][4], read_goal[1][5]};
 
@@ -205,8 +202,8 @@ int main(int argc, char **argv)
           max_diff = abs(currentState_targetValue[i] - currentState_targetValue[i+6]); 
         }
       }
-      // printf("max value %f, inv_marker = %f\n",max_diff,solutions[14]);
-      if (max_diff < 0.001) {
+      printf("max value %f, inv_marker = %f\n",max_diff,solutions[14]);
+      if (max_diff < 0.0005) {
         row_index = (row_index+1)%2;
       }
 
@@ -227,7 +224,7 @@ int main(int argc, char **argv)
 		    }
 		    if (smallest_dist > min_dist[j]) smallest_dist = min_dist[j];
 	    }
-       for (int i = 0; i < 10; i++) printf("min_dist %i = %f\n", i, min_dist[i]);
+      //  for (int i = 0; i < 10; i++) printf("min_dist %i = %f\n", i, min_dist[i]);
       printf("smallest d = %f\n", smallest_dist);
       joint_vel_values.data.clear();
       for (int i = 0; i < 12; i++) joint_vel_values.data.push_back(solutions[i]);
