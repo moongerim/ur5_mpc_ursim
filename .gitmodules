@@ -1,0 +1,9 @@
+[submodule "universal_robot"]
+	path = universal_robot
+	url = https://github.com/ros-industrial/universal_robot.git
+[submodule "catkin_simple"]
+	path = catkin_simple
+	url = https://github.com/catkin/catkin_simple.git
+[submodule "src/catkin_simple"]
+	path = src/catkin_simple
+	url = https://github.com/catkin/catkin_simple.git
