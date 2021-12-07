@@ -39,9 +39,9 @@
 /** Maximum number of optimization variables. */
 #define QPOASES_NVMAX      170
 /** Maximum number of constraints. */
-#define QPOASES_NCMAX      1426
+#define QPOASES_NCMAX      1410
 /** Maximum number of working set recalculations. */
-#define QPOASES_NWSRMAX    4788
+#define QPOASES_NWSRMAX    4740
 /** Print level for qpOASES. */
 #define QPOASES_PRINTLEVEL PL_NONE
 /** The value of EPS */

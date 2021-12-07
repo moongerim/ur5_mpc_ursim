@@ -19,12 +19,12 @@ class MyModel(nn.Module):
     def __init__(self, dev, input_size = 48, output_size = 6):
         super().__init__()
         self.dev = dev
-        self.linear_1 = nn.Linear(in_features=input_size, out_features=150)
-        self.linear_2 = nn.Linear(150, 300)
-        self.linear_3 = nn.Linear(300, 150)
+        self.linear_1 = nn.Linear(in_features=input_size, out_features=200)
+        self.linear_2 = nn.Linear(200, 500)
+        self.linear_3 = nn.Linear(500, 200)
         # self.linear_4 = nn.Linear(600, 400)
         # self.linear_5 = nn.Linear(400, 200)
-        self.linear_6 = nn.Linear(150, output_size)
+        self.linear_6 = nn.Linear(200, output_size)
 
     def forward(self, x):
         x = self.linear_1(x)
@@ -90,11 +90,21 @@ def test(model, x_test, y_test):
             predictions.append(model(seq_data))
     return predictions, real_data
 
-def load_data(n_files):
+def load_data(n_files,train=True,AB=True):
     data = []
     full_data = None
     for i in range(1, n_files):
-        raw_data = np.loadtxt('data_BA_{}.csv'.format(i), skiprows = 1, delimiter=',')
+        if train==True:
+            if AB==True:
+                raw_data = np.loadtxt('data_AB_train_{}.csv'.format(i), skiprows = 1, delimiter=',')
+            else:
+                raw_data = np.loadtxt('data_BA_train_{}.csv'.format(i), skiprows = 1, delimiter=',')
+        else:
+            if AB==True:
+                raw_data = np.loadtxt('data_AB_eval_{}.csv'.format(i), skiprows = 1, delimiter=',')
+            else:
+                raw_data = np.loadtxt('data_BA_eval_{}.csv'.format(i), skiprows = 1, delimiter=',')
+        
         if full_data is None:
             full_data = raw_data
         else:
@@ -109,7 +119,7 @@ def split_data(data):
     return [train_data, eval_data]
 
 def visualize(predicted_data, real_data, logfile, x_test,loss1,loss2):
-    data_dir = '/home/robot/workspaces/ur5_mpc_ursim/src/nn_train/log/8'
+    data_dir = '/home/robot/workspaces/ur5_mpc_ursim/src/nn_train/log/7'
     os.chdir(data_dir)
     p_data = np.asarray(predicted_data)
     r_data = np.asarray(real_data)
@@ -295,43 +305,46 @@ if __name__ == '__main__':
     train_log = 'train_log_{}.csv'.format(run_name)
     eval_log = 'eval_log_{}.csv'.format(run_name)
     test_log = 'test_log_{}.csv'.format(run_name)
-    # AB 1064
-    # train_files = 1064
-    # BA 1039
-    train_files = 1039
-    # AB 218
-    # eval_files = 218
-    # BA 211
-    eval_files = 211
+    direction = 'BA'
+    
+    if direction == 'AB':
+        train_files = 650
+        eval_files = 113
+        ABBA = True
+        test_file = 'data_AB_test_27.csv'
+
+    if direction == 'BA':
+        train_files = 650
+        eval_files = 112
+        ABBA = False
+        test_file = 'data_BA_test_37.csv'
     n_batch = 1000
 
     # Data loading:
-    data_dir = '/home/robot/workspaces/ur5_mpc_ursim/data_1011/train/'
+    data_dir = '/home/robot/workspaces/ur5_mpc_ursim/data_1811'
     os.chdir(data_dir)
-    train_data = load_data(train_files)
+    train_data = load_data(train_files,True, ABBA)
     # train_data, eval_data = split_data(all_data)
     x_train = train_data[:,0:48]
     y_train = train_data[:,48:54]
     print(len(x_train))
 
-    data_dir = '/home/robot/workspaces/ur5_mpc_ursim/data_1011/eval/'
+    data_dir = '/home/robot/workspaces/ur5_mpc_ursim/data_1811'
     os.chdir(data_dir)
-    eval_data = load_data(eval_files)
+    eval_data = load_data(eval_files,False, ABBA)
     x_eval = eval_data[:,0:48]
     y_eval = eval_data[:,48:54]
 
-    data_dir = '/home/robot/workspaces/ur5_mpc_ursim/data_1011/test/'
+    data_dir = '/home/robot/workspaces/ur5_mpc_ursim/data_1811'
     os.chdir(data_dir)
-    # AB 18
-    # BA 13
-    test_data = np.loadtxt('data_BA_13.csv', skiprows = 1,delimiter=',')
+    test_data = np.loadtxt(test_file, skiprows = 1,delimiter=',')
     x_test = test_data[:,0:48]
     y_test = test_data[:,48:54]
 
     dev = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
     model = MyModel(dev).to(dev)
-    epoches = 500
+    epoches = 2000
     log_interval = 500
     loss_function = nn.MSELoss()
     optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
@@ -339,7 +352,7 @@ if __name__ == '__main__':
     train_losses = []
     eval_losses = []
     for epoch in range(epoches):
-        data_dir = '/home/robot/workspaces/ur5_mpc_ursim/src/nn_train/log/8'
+        data_dir = '/home/robot/workspaces/ur5_mpc_ursim/src/nn_train/log/7'
         os.chdir(data_dir)
         
         loss1 = train(epoch, dev, model, x_train, y_train, optimizer, log_interval, loss_function, train_log)
@@ -356,12 +369,12 @@ if __name__ == '__main__':
         if loss2<lower_loss:
             lower_loss = loss2
             print('\nThe lowest loss is: {:4f}\n '.format(lower_loss))
-            data_dir = '/home/robot/workspaces/ur5_mpc_ursim/src/nn_train/log/8'
+            data_dir = '/home/robot/workspaces/ur5_mpc_ursim/src/nn_train/log/7'
             os.chdir(data_dir)
             torch.save(model.state_dict(), 'model_{}.pth'.format(run_name))
     
     print("\nA testing part")
-    data_dir = '/home/robot/workspaces/ur5_mpc_ursim/src/nn_train/log/8'
+    data_dir = '/home/robot/workspaces/ur5_mpc_ursim/src/nn_train/log/7'
     os.chdir(data_dir)
     model.cuda()
     model.load_state_dict(torch.load('model_{}.pth'.format(run_name)))  

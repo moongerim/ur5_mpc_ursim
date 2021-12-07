@@ -45,7 +45,7 @@ def move1(Q1):
         joints_pos = joint_states.position
         g.trajectory.points = [
             JointTrajectoryPoint(positions=joints_pos, velocities=[0]*6, time_from_start=rospy.Duration(0.0)),
-            JointTrajectoryPoint(positions=Q1, velocities=[0]*6, time_from_start=rospy.Duration(6.0))]
+            JointTrajectoryPoint(positions=Q1, velocities=[0]*6, time_from_start=rospy.Duration(10.0))]
             #JointTrajectoryPoint(positions=Q2, velocities=[0]*6, time_from_start=rospy.Duration(4.0)),
             #JointTrajectoryPoint(positions=Q_angle4, velocities=[0]*6, time_from_start=rospy.Duration(6.0))]
         client.send_goal(g)

@@ -80,7 +80,7 @@ class GoalFollower
     ros::Publisher chatter_pub;
     double robot_spheres[10] = {0.1, 0.1, 0.15, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1};
 
-    double human_sphere[56]= {10.0517,   0.5220,   1.0895,   0.1500,
+    double human_sphere[57]= {10.0517,   0.5220,   1.0895,   0.1500,
                               10.0658,   0.4526,   0.8624,   0.2500,
                               10.0844,   0.7044,   0.9207,   0.1500,
                               10.2083,   0.3075,   1.0208,   0.1500,
@@ -93,7 +93,8 @@ class GoalFollower
                              -10.1062,   0.2444,   0.5897,   0.1300,
                              -10.0998,   0.3062,   0.5387,   0.1300,
                               10.1908,   0.5290,   1.0016,   0.2000,
-                              10.2106,   0.4602,   0.6915,   0.2500};
+                              10.2106,   0.4602,   0.6915,   0.2500,
+                              0};
 
 
     double goal[6] = {0.0000, -1.57, 0.0000, -1.57, 0.0000, 0.0000};
@@ -129,7 +130,7 @@ class GoalFollower
     // Member Functions() 
     void change_obstacles_msg(const std_msgs::Float64MultiArray obstacle_data) 
     { 
-      for (int i=0; i<56; i++)   human_sphere[i] = obstacle_data.data[i];
+      for (int i=0; i<57; i++)   human_sphere[i] = obstacle_data.data[i];
     }
 
     void test_p_vel(const std_msgs::Float64MultiArray data) 
@@ -210,7 +211,7 @@ int main(int argc, char **argv)
   // min dist has 10 values for 10 test points:
   double min_dist[10] = {10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000};
   ros::Rate loop_rate(20);
-  myfile.open("data_1411/train/data_0.csv", ios::out); 
+  myfile.open("data_1811/2/data_0.csv", ios::out); 
   int fileseq=0;
   string filename;
   while (ros::ok())
@@ -226,7 +227,7 @@ int main(int argc, char **argv)
       myMpcSolver.reinitialize();
       fileseq++;
       myfile.close();
-      filename = "data_1411/train/data_"+to_string(fileseq)+".csv";
+      filename = "data_1811/2/data_"+to_string(fileseq)+".csv";
       myfile.open(filename, ios::out);
       sleep(1);
     }
@@ -403,8 +404,9 @@ int main(int argc, char **argv)
       myfile <<my_follower.tp_vel_vrep[27]<<" "<<my_follower.tp_vel_vrep[28]<<" "<<my_follower.tp_vel_vrep[29]<<" ";
       myfile <<lin_vell_limit_arr[0]<<" "<<lin_vell_limit_arr[1]<<" "<<lin_vell_limit_arr[2]<<" ";
       myfile <<lin_vell_limit_arr[3]<<" "<<lin_vell_limit_arr[4]<<" "<<lin_vell_limit_arr[5]<<" ";
-      myfile <<lin_vell_limit_arr[6]<<" "<<lin_vell_limit_arr[7]<<" "<<lin_vell_limit_arr[8]<<" "<<lin_vell_limit_arr[9]<<" "<<endl;
-    
+      myfile <<lin_vell_limit_arr[6]<<" "<<lin_vell_limit_arr[7]<<" "<<lin_vell_limit_arr[8]<<" "<<lin_vell_limit_arr[9]<<" ";
+      myfile <<my_follower.human_sphere[56]<<endl;
+       
     } 
     else cout << "Unable to open file";
     ros::spinOnce();

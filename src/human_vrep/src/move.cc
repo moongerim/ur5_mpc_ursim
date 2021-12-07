@@ -3,8 +3,8 @@
 #include "std_msgs/Float64MultiArray.h"
 #include <math.h>
 #include <sensor_msgs/JointState.h>
-float point_array_temp[56];
-float point_array[56];
+float point_array_temp[57];
+float point_array[57];
 
 float sphere_radi[14]={0.5510,0.6010,0.5010,0.5010,0.5010,0.5010,0.5010,0.5010,0.4510,0.4510,0.4810,0.4810,0.5510,0.6010};
 
@@ -17,6 +17,7 @@ void chatterCallback(const std_msgs::Float64MultiArray msg)
     //vrep diff:
     point_array_temp[i*4+3] = sphere_radi[i];
   }
+  point_array_temp[56] = msg.data[42];
 }
 double state_feedback_temp[12];
 double state_feedback[12];
@@ -50,13 +51,14 @@ int main(int argc, char **argv)
       point_array[i*4+2] = point_array_temp[i*4+2]-1.2; // z offset
       point_array[i*4+3] = point_array_temp[i*4+3];
     }
+    point_array[56]=point_array_temp[56];
     for (int i = 0; i < 12; ++i) state_feedback[i] = state_feedback_temp[i];
     // ROS_INFO("Np11 %.3f %.3f %.3f %.3f", point_array[44], point_array[45], point_array[46], point_array[47]);
     // prepare to send commands
     std_msgs::Float64MultiArray obstacle_data;
     obstacle_data.data.clear();
     // printf( "obstacle %i = %f \n", 1, point_array[0]);
-    for (int i = 0; i < 56; i++){
+    for (int i = 0; i < 57; i++){
       printf( "obstacle %i = %f \n", i, point_array[i]);
       obstacle_data.data.push_back(point_array[i]);
     } 

@@ -26,12 +26,12 @@ class MyModel(nn.Module):
     def __init__(self, dev, input_size = 48, output_size = 6):
         super().__init__()
         self.dev = dev
-        self.linear_1 = nn.Linear(in_features=input_size, out_features=100)
-        self.linear_2 = nn.Linear(100, 500)
-        self.linear_3 = nn.Linear(500, 100)
-        # self.linear_4 = nn.Linear(200, 100)
-        # self.linear_5 = nn.Linear(100, 50)
-        self.linear_6 = nn.Linear(100, output_size)
+        self.linear_1 = nn.Linear(in_features=input_size, out_features=200)
+        self.linear_2 = nn.Linear(200, 500)
+        self.linear_3 = nn.Linear(500, 200)
+        # self.linear_4 = nn.Linear(600, 400)
+        # self.linear_5 = nn.Linear(400, 200)
+        self.linear_6 = nn.Linear(200, output_size)
 
     def forward(self, x):
         x = self.linear_1(x)
@@ -52,8 +52,8 @@ class ENV:
         self.pub = rospy.Publisher('/ur_driver/URScript', String, queue_size=1)
         self.flag_pub = rospy.Publisher('/flag', String, queue_size=1)
         self.run_name = run_name
-        self.A = [0.0, -2.3, -0.9, -0.5, 1.3, 1.0]
-        self.B = [2.8, -2.2, -1.0, -0.6, 1.4, 1.1]
+        self.A = [0.0, -2.3, -1.11, -1.204, -1.204, 0.5]
+        self.B = [3.0, -1.5708, -1.6708, -1.7708, 1.7708, 1.0]
         self.start = self.A
         self.goal = self.B
         self.robot_spheres = [0.1, 0.1, 0.15, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1]
@@ -85,11 +85,11 @@ class ENV:
             if self.start[0]==self.A[0]:
                 self.start = self.B
                 self.goal = self.A
-                model.load_state_dict(torch.load('model_20211110_185634.pth'))
+                model.load_state_dict(torch.load('model_20211119_114101.pth'))
             else:
                 self.start = self.A
                 self.goal = self.B
-                model.load_state_dict(torch.load('model_20211110_181701.pth'))
+                model.load_state_dict(torch.load('model_20211119_101141.pth'))
         return arrive
 
     def test(self, x_test):
@@ -128,13 +128,13 @@ class ENV:
 
     def reset(self):   
         
-        if self.first<3:
+        if self.first<5:
             self.first+=1
             self.init_variables()
-            self.threshold = 0.3
-            time.sleep(10)
+            self.threshold = 1.0
+            time.sleep(20)
         else:
-            self.threshold=0.2
+            self.threshold=0.5
             hello_str = "start"
             self.flag_pub.publish(hello_str)
         # time.sleep(1)
@@ -299,7 +299,7 @@ if __name__ == '__main__':
     model.cuda()
     data_dir = '/home/robot/workspaces/ur5_mpc_ursim/src/nn_train/log/7'
     os.chdir(data_dir)
-    model.load_state_dict(torch.load('model_20211110_181701.pth'))
+    model.load_state_dict(torch.load('model_20211119_101141.pth'))
     env = ENV(model,run_name)
     t = time.time()
     env.reset()

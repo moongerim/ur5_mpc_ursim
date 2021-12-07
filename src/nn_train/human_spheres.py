@@ -88,8 +88,8 @@ def main():
             for i in range (len(temp)):
                 point_array = [0]*42
                 for a in range(14):
-                    point_array[3*a] = (temp[i][3*a])+1.5
-                    point_array[3*a+1] = (temp[i][3*a+1])+1.5
+                    point_array[3*a] = (temp[i][3*a])+1.0
+                    point_array[3*a+1] = (temp[i][3*a+1])+1.0
                     point_array[3*a+2] = (temp[i][3*a+2])-1.2
                 obstacle_data = Float64MultiArray()
                 obstacle_data.data = point_array
