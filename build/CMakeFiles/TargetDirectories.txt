@@ -147,6 +147,14 @@
 /home/robot/workspaces/ur5_mpc_ursim/build/mpc_low/CMakeFiles/move_low.dir
 /home/robot/workspaces/ur5_mpc_ursim/build/mpc_low/CMakeFiles/install/local.dir
 /home/robot/workspaces/ur5_mpc_ursim/build/mpc_low/CMakeFiles/install/strip.dir
+/home/robot/workspaces/ur5_mpc_ursim/build/test_acceleration/CMakeFiles/list_install_components.dir
+/home/robot/workspaces/ur5_mpc_ursim/build/test_acceleration/CMakeFiles/install.dir
+/home/robot/workspaces/ur5_mpc_ursim/build/test_acceleration/CMakeFiles/rebuild_cache.dir
+/home/robot/workspaces/ur5_mpc_ursim/build/test_acceleration/CMakeFiles/edit_cache.dir
+/home/robot/workspaces/ur5_mpc_ursim/build/test_acceleration/CMakeFiles/move_node.dir
+/home/robot/workspaces/ur5_mpc_ursim/build/test_acceleration/CMakeFiles/test.dir
+/home/robot/workspaces/ur5_mpc_ursim/build/test_acceleration/CMakeFiles/install/strip.dir
+/home/robot/workspaces/ur5_mpc_ursim/build/test_acceleration/CMakeFiles/install/local.dir
 /home/robot/workspaces/ur5_mpc_ursim/build/universal_robot/ur_bringup/CMakeFiles/install.dir
 /home/robot/workspaces/ur5_mpc_ursim/build/universal_robot/ur_bringup/CMakeFiles/rebuild_cache.dir
 /home/robot/workspaces/ur5_mpc_ursim/build/universal_robot/ur_bringup/CMakeFiles/edit_cache.dir

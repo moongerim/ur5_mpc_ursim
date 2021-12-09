@@ -34,3 +34,13 @@ python human_spheres.py
 source ./venv/bin/activate.sh
 cd workspaces/ur5_mpc_ursim/src/nn_train
 ./pytorch_test
+
+
+## acceleration test
+./start-ursim.sh
+
+roslaunch ur_modern_driver ur5_bringup.launch robot_ip:=127.0.0.1
+
+
+rosrun test_acceleration test_acceleration.py
+

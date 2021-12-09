@@ -31,7 +31,7 @@ void feedbackCB(const sensor_msgs::JointState msg)
 
 void given_jv(const std_msgs::Float64MultiArray msg) 
 {
-  for (int i = 0; i < 6; ++i) 
+  for (int i = 0; i < 7; ++i) 
   {
     given_vels[i] = msg.data[i];
   }
@@ -96,9 +96,10 @@ int main(int argc, char **argv)
   // cposes of 10 test points:
   double ctp[30] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
   // linear vels of 10 test points:
-  double ctv[30] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+  double lin_v_given[30] = {0,0,0,0,0,0,0,0,0,0};
+  double lin_v_real[10] = {0,0,0,0,0,0,0,0,0,0};
   ros::Rate loop_rate(200);
-  myfile.open("data_acceleration_10.csv", ios::out); 
+  myfile.open("data_acceleration_2.csv", ios::out); 
   while (ros::ok())
   {
     start = clock();
@@ -121,10 +122,19 @@ int main(int argc, char **argv)
                                             state_feedback[8], state_feedback[9], 
                                             state_feedback[10], state_feedback[11]);
     for (int k=0; k<10; k++) {
-      ctv[k*3+0] = vell_mat.coeff(k*3+0,0);
-      ctv[k*3+1] = vell_mat.coeff(k*3+1,0);
-      ctv[k*3+2] = vell_mat.coeff(k*3+2,0);
+      lin_v_real[k] = sqrt(vell_mat.coeff(k*3 + 0,0)*vell_mat.coeff(k*3 + 0,0) + vell_mat.coeff(k*3 + 1,0)*vell_mat.coeff(k*3 + 1,0) + vell_mat.coeff(k*3 + 2,0)*vell_mat.coeff(k*3 + 2,0));
     }
+
+    Eigen::MatrixXf vell_mat_given = get_velocity(state_feedback[0], state_feedback[1], 
+                                            state_feedback[2], state_feedback[3],
+                                            state_feedback[4], state_feedback[5],
+                                            given_vels[0], given_vels[1], 
+                                            given_vels[2], given_vels[3], 
+                                            given_vels[4], given_vels[5]);
+    for (int k=0; k<10; k++) {
+      lin_v_given[k] = sqrt(vell_mat_given.coeff(k*3 + 0,0)*vell_mat_given.coeff(k*3 + 0,0) + vell_mat_given.coeff(k*3 + 1,0)*vell_mat_given.coeff(k*3 + 1,0) + vell_mat_given.coeff(k*3 + 2,0)*vell_mat_given.coeff(k*3 + 2,0));
+    }
+
     if (myfile.is_open())
 	  {
       // Cartesian positions of spheres on robot:
@@ -138,10 +148,11 @@ int main(int argc, char **argv)
       myfile <<ctp[8]<<" "<<ctp[9]<<" "<<ctp[10]<<" " <<ctp[11]<< " " <<ctp[12]<<" " <<ctp[13]<<" " <<ctp[14]<<" ";
       myfile <<ctp[15]<<" "<<ctp[16]<<" "<<ctp[17]<<" "<<ctp[18]<<" "<<ctp[19]<<" "<<ctp[20]<<" "<<ctp[21]<<" ";
       myfile <<ctp[22]<<" "<<ctp[23]<<" "<<ctp[24]<<" "<<ctp[25]<<" "<<ctp[26]<<" "<<ctp[27]<<" "<<ctp[28]<<" "<<ctp[29]<<" ";
-      myfile <<ctv[0]<<" "<<ctv[1]<<" "<<ctv[2]<<" "<<ctv[3]<<" "<<ctv[4]<<" "<<ctv[5]<<" "<<ctv[6]<<" "<<ctv[7]<<" "<<ctv[8]<<" "<<ctv[9]<<" ";
-      myfile <<ctv[10]<<" "<<ctv[11]<<" "<<ctv[12]<<" "<<ctv[13]<<" "<<ctv[14]<<" "<<ctv[15]<<" "<<ctv[16]<<" "<<ctv[17]<<" "<<ctv[18]<<" "<<ctv[19]<<" ";
-      myfile <<ctv[20]<<" "<<ctv[21]<<" "<<ctv[22]<<" "<<ctv[23]<<" "<<ctv[24]<<" "<<ctv[25]<<" "<<ctv[26]<<" "<<ctv[27]<<" "<<ctv[28]<<" "<<ctv[29]<<" ";
-      myfile <<cpu_time<<" "<<endl;
+      myfile <<lin_v_real[0]<<" "<<lin_v_real[1]<<" "<<lin_v_real[2]<<" "<<lin_v_real[3]<<" "<<lin_v_real[4]<<" ";
+      myfile <<lin_v_real[5]<<" "<<lin_v_real[6]<<" "<<lin_v_real[7]<<" "<<lin_v_real[8]<<" "<<lin_v_real[9]<<" ";
+      myfile <<lin_v_given[0]<<" "<<lin_v_given[1]<<" "<<lin_v_given[2]<<" "<<lin_v_given[3]<<" "<<lin_v_given[4]<<" ";
+      myfile <<lin_v_given[5]<<" "<<lin_v_given[6]<<" "<<lin_v_given[7]<<" "<<lin_v_given[8]<<" "<<lin_v_given[9]<<" ";
+      myfile <<cpu_time<<" "<<given_vels[6]<<" "<<endl;
        
     } 
     else cout << "Unable to open file";

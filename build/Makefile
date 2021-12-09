@@ -1011,6 +1011,19 @@ move_low/fast:
 .PHONY : move_low/fast
 
 #=============================================================================
+# Target rules for targets named move_node
+
+# Build rule for target.
+move_node: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 move_node
+.PHONY : move_node
+
+# fast build rule for target.
+move_node/fast:
+	$(MAKE) -f test_acceleration/CMakeFiles/move_node.dir/build.make test_acceleration/CMakeFiles/move_node.dir/build
+.PHONY : move_node/fast
+
+#=============================================================================
 # Target rules for targets named _run_tests_ur_bringup_roslaunch-check
 
 # Build rule for target.
@@ -2895,6 +2908,7 @@ help:
 	@echo "... mpc_low_package"
 	@echo "... mpc_low"
 	@echo "... move_low"
+	@echo "... move_node"
 	@echo "... _run_tests_ur_bringup_roslaunch-check"
 	@echo "... _run_tests_ur_bringup"
 	@echo "... clean_test_results_ur_bringup"
