@@ -90,16 +90,15 @@ int main(int argc, char **argv)
 
   ros::NodeHandle n;
   ROS_INFO("Node Started");
-
+  ros::Publisher chatter_pub = n.advertise<std_msgs::Float64MultiArray>("/data", 1);
   ros::Subscriber arm_sub = n.subscribe<sensor_msgs::JointState>("/joint_states", 1, feedbackCB);
   ros::Subscriber vel_sub = n.subscribe<std_msgs::Float64MultiArray>("/given_jv", 1, given_jv);
   // cposes of 10 test points:
   double ctp[30] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
   // linear vels of 10 test points:
-  double lin_v_given[30] = {0,0,0,0,0,0,0,0,0,0};
+  double lin_v_given[10] = {0,0,0,0,0,0,0,0,0,0};
   double lin_v_real[10] = {0,0,0,0,0,0,0,0,0,0};
   ros::Rate loop_rate(200);
-  myfile.open("data_acceleration_2.csv", ios::out); 
   while (ros::ok())
   {
     start = clock();
@@ -135,27 +134,13 @@ int main(int argc, char **argv)
       lin_v_given[k] = sqrt(vell_mat_given.coeff(k*3 + 0,0)*vell_mat_given.coeff(k*3 + 0,0) + vell_mat_given.coeff(k*3 + 1,0)*vell_mat_given.coeff(k*3 + 1,0) + vell_mat_given.coeff(k*3 + 2,0)*vell_mat_given.coeff(k*3 + 2,0));
     }
 
-    if (myfile.is_open())
-	  {
-      // Cartesian positions of spheres on robot:
-      myfile <<state_feedback[0]<<" "<<state_feedback[1]<<" "<<state_feedback[2]<<" ";
-      myfile <<state_feedback[3]<<" "<<state_feedback[4]<<" "<<state_feedback[5]<<" ";
-      myfile <<state_feedback[6]<<" "<<state_feedback[7]<<" "<<state_feedback[8]<<" ";
-      myfile <<state_feedback[9]<<" "<<state_feedback[10]<<" "<<state_feedback[11]<<" ";
-      myfile <<given_vels[0]<<" "<<given_vels[1]<<" "<<given_vels[2]<<" ";
-      myfile <<given_vels[3]<<" "<<given_vels[4]<<" "<<given_vels[5]<<" ";
-      myfile <<ctp[0]<<" "<<ctp[1]<<" "<<ctp[2]<<" "<<ctp[3]<<" "<<ctp[4]<<" "<<ctp[5]<<" "<<ctp[6]<<" "<<ctp[7]<<" ";
-      myfile <<ctp[8]<<" "<<ctp[9]<<" "<<ctp[10]<<" " <<ctp[11]<< " " <<ctp[12]<<" " <<ctp[13]<<" " <<ctp[14]<<" ";
-      myfile <<ctp[15]<<" "<<ctp[16]<<" "<<ctp[17]<<" "<<ctp[18]<<" "<<ctp[19]<<" "<<ctp[20]<<" "<<ctp[21]<<" ";
-      myfile <<ctp[22]<<" "<<ctp[23]<<" "<<ctp[24]<<" "<<ctp[25]<<" "<<ctp[26]<<" "<<ctp[27]<<" "<<ctp[28]<<" "<<ctp[29]<<" ";
-      myfile <<lin_v_real[0]<<" "<<lin_v_real[1]<<" "<<lin_v_real[2]<<" "<<lin_v_real[3]<<" "<<lin_v_real[4]<<" ";
-      myfile <<lin_v_real[5]<<" "<<lin_v_real[6]<<" "<<lin_v_real[7]<<" "<<lin_v_real[8]<<" "<<lin_v_real[9]<<" ";
-      myfile <<lin_v_given[0]<<" "<<lin_v_given[1]<<" "<<lin_v_given[2]<<" "<<lin_v_given[3]<<" "<<lin_v_given[4]<<" ";
-      myfile <<lin_v_given[5]<<" "<<lin_v_given[6]<<" "<<lin_v_given[7]<<" "<<lin_v_given[8]<<" "<<lin_v_given[9]<<" ";
-      myfile <<cpu_time<<" "<<given_vels[6]<<" "<<endl;
-       
-    } 
-    else cout << "Unable to open file";
+    std_msgs::Float64MultiArray values;
+    values.data.clear();
+    for (int i = 0; i < 12; i++) values.data.push_back(state_feedback[i]);
+    for (int i = 0; i < 10; i++) values.data.push_back(lin_v_real[i]);
+    for (int i = 0; i < 10; i++) values.data.push_back(lin_v_given[i]);
+    for (int i = 0; i < 30; i++) values.data.push_back(ctp[i]);
+    chatter_pub.publish(values);
     ros::spinOnce();
     loop_rate.sleep();
   }

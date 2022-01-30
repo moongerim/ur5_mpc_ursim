@@ -26,7 +26,7 @@ from math import pi
 JOINT_NAMES = ['shoulder_pan_joint', 'shoulder_lift_joint', 'elbow_joint',
                'wrist_1_joint', 'wrist_2_joint', 'wrist_3_joint']
 
-Q1 = [0.7853, 0, 0, -1.5708, 0, 0]
+Q1 = [0.7853, -3.14, 0, -1.5708, 0, 0]
 # Q2 = [1.5708,-1.5708,1.5708,0,1.5708,0]
 # Q_angle = [-102*pi/180, -62*pi/180, 65*pi/180, -24*pi/180, -69*pi/180, 0*pi/180]
 client = None

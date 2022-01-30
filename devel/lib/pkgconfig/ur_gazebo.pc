@@ -1,8 +1,0 @@
-prefix=/home/robot/workspaces/ur5_mpc_ursim/devel
-
-Name: ur_gazebo
-Description: Description of ur_gazebo
-Version: 1.2.7
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 
