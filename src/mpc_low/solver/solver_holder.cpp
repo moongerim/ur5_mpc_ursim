@@ -60,9 +60,9 @@ double * MPC_solver::solve_mpc(double input_arr[71], double state_arr[60]) {
 	output j_dot[7]
 	*/
 	
-	double x0[] = {input_arr[0], input_arr[1], input_arr[2], input_arr[3], input_arr[4], input_arr[5]};
-	double yN[] = {input_arr[6], input_arr[7], input_arr[8], input_arr[9], input_arr[10], input_arr[11]};
-	double human_spheres[] = {input_arr[12], input_arr[13], input_arr[14], input_arr[15], input_arr[16], 
+	double x0[6] = {input_arr[0], input_arr[1], input_arr[2], input_arr[3], input_arr[4], input_arr[5]};
+	double yN[6] = {input_arr[6], input_arr[7], input_arr[8], input_arr[9], input_arr[10], input_arr[11]};
+	double human_spheres[59] = {input_arr[12], input_arr[13], input_arr[14], input_arr[15], input_arr[16], 
 							  input_arr[17], input_arr[18], input_arr[19], input_arr[20], input_arr[21],
 							  input_arr[22], input_arr[23], input_arr[24], input_arr[25], input_arr[26], 
 							  input_arr[27], input_arr[28], input_arr[29], input_arr[30], input_arr[31], 
