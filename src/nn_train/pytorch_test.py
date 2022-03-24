@@ -7,7 +7,7 @@ import os
 import stream_tee as stream_tee
 import __main__ as main
 import rospy
-from std_msgs.msg import Float64MultiArray, Float64, String
+from std_msgs.msg import Float64MultiArray, String
 import time
 torch.manual_seed(1)
 from stream_tee import write_mat
@@ -70,11 +70,11 @@ class ENV:
             if self.start[0]==self.A[0]:
                 self.start = self.B
                 self.goal = self.A
-                model.load_state_dict(torch.load('20220120_144847/model.pth'))
+                model.load_state_dict(torch.load('20220316_232309/model.pth'))
             else:
                 self.start = self.A
                 self.goal = self.B
-                model.load_state_dict(torch.load('20220120_172835/model.pth'))
+                model.load_state_dict(torch.load('20220316_221250/model.pth'))
         return arrive
 
     def test(self, x_test):
@@ -121,7 +121,7 @@ class ENV:
             set_init_pose(self.start[0:6], 1)
             hello_str = "start"
             self.flag_pub.publish(hello_str)
-            self.threshold = 0.13
+            self.threshold = 0.17
             time.sleep(2)
         self.step()
     
@@ -160,10 +160,10 @@ if __name__ == '__main__':
     rospy.init_node("pytorch_test", anonymous=True)
     run_name = stream_tee.generate_timestamp()
     dev = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    n = [200,200]
+    n = [200,200,200]
     model = MyModel(dev,48,6,n).to(dev)
     model.cuda()
-    rec_dir = '/home/robot/workspaces/ur5_mpc_ursim/src/nn_train/log/20220120_172835/'
+    rec_dir = '/home/robot/workspaces/ur5_mpc_ursim/src/nn_train/log/20220316_221250/'
     os.chdir(rec_dir)
     model.load_state_dict(torch.load('model.pth'))
     env = ENV(model,run_name,n)
@@ -171,7 +171,7 @@ if __name__ == '__main__':
     env.reset()
     i = 0
     # save_iter = 0
-    rate = rospy.Rate(100) #hz
+    rate = rospy.Rate(40) #hz
     while not rospy.is_shutdown():
         # save_iter+=1
         # if save_iter%5000==0:

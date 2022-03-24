@@ -56,9 +56,9 @@ int main(int argc, char **argv)
   ros::init(argc, argv, "human_control");
   ros::NodeHandle nodeHandle("~");
   ros::NodeHandle n;
-  // ros::Subscriber sub = n.subscribe<std_msgs::Float64MultiArray>("/Obstacle/human_spheres", 1, chatterCallback);
-  // ros::Subscriber arm_sub = n.subscribe<sensor_msgs::JointState>("/joint_states", 1, feedbackCB);
-  ros::Subscriber arm_sub = n.subscribe<std_msgs::Float64MultiArray>("/dataset", 1, datasetCB);
+  ros::Subscriber sub = n.subscribe<std_msgs::Float64MultiArray>("/Obstacle/human_spheres", 1, chatterCallback);
+  ros::Subscriber arm_sub = n.subscribe<sensor_msgs::JointState>("/joint_states", 1, feedbackCB);
+  // ros::Subscriber arm_sub = n.subscribe<std_msgs::Float64MultiArray>("/dataset", 1, datasetCB);
   ros:: Publisher chatter_low = n.advertise<std_msgs::Float64MultiArray>("/Obstacle/mpc_low_spheres", 1);
   ros:: Publisher chatter_high = n.advertise<std_msgs::Float64MultiArray>("/Obstacle/mpc_high_spheres", 1);
   ros:: Publisher states_low = n.advertise<std_msgs::Float64MultiArray>("/joint_states_low", 1);
@@ -92,8 +92,8 @@ int main(int argc, char **argv)
     state_data.data.clear();
     // printf( "obstacle %i = %f \n", 1, point_array[0]);
     for (int i = 0; i < 12; i++) state_data.data.push_back(state_feedback[i]);
-    for (int i = 0; i < 6; i++) state_data.data.push_back(from_high[18+i]);
-    state_data.data.push_back(from_high[30]);
+    // for (int i = 0; i < 6; i++) state_data.data.push_back(from_high[18+i]);
+    // state_data.data.push_back(from_high[30]);
     states_low.publish(state_data);
     states_high.publish(state_data);
 

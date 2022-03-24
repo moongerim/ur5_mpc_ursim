@@ -31,9 +31,9 @@ roslaunch ur_modern_driver ur5_bringup.launch robot_ip:=127.0.0.1
 cd workspaces/ur5_mpc_ursim/src/nn_train
 python human_spheres.py
 ./control.py
-source ./venv/bin/activate.sh
+source ./venv/bin/activate
 cd workspaces/ur5_mpc_ursim/src/nn_train
-./pytorch_test
+./pytorch_test.py
 
 
 ## acceleration test

@@ -2,7 +2,7 @@
 import numpy as np
 import torch
 import torch.nn as nn
-import torch.optim as optim
+# import torch.optim as optim
 import torch.nn.functional as F
 import copy
 import matplotlib
@@ -12,7 +12,8 @@ import os
 import stream_tee as stream_tee
 import __main__ as main
 import csv
-from std_msgs.msg import Float64MultiArray
+# from std_msgs.msg import Float64MultiArray
+import random
 torch.manual_seed(1)
 
 class MyModel(nn.Module):
@@ -37,7 +38,6 @@ class MyModel(nn.Module):
 
 def train(epoch, dev, model, x_train, y_train, optimizer, log_interval, loss_function, log_file):
     runLoss = 0
-    record_loss = 0
     model.train()
     for b in range(0, len(x_train), n_batch):
         seq_data = np.array(x_train[b:b+n_batch])
@@ -87,36 +87,32 @@ def test(model, x_test, y_test):
     return predictions, real_data
 
 def load_data(n_files,datatype,direction):
-    data = []
+
     full_data = None
     for i in range(1, n_files):
         if datatype=='train':
             if direction=='AB':
-                # print("AB")
                 raw_data = np.loadtxt('data_AB_train_{}.csv'.format(i), skiprows = 1, delimiter=',')
             else:
-                # print("BA")
                 raw_data = np.loadtxt('data_BA_train_{}.csv'.format(i), skiprows = 1, delimiter=',')
         else:
             if direction=='AB':
-                # print("AB")
                 raw_data = np.loadtxt('data_AB_eval_{}.csv'.format(i), skiprows = 1, delimiter=',')
             else:
-                # print("BA")
                 raw_data = np.loadtxt('data_BA_eval_{}.csv'.format(i), skiprows = 1, delimiter=',')
-        
+
         if full_data is None:
             full_data = raw_data
         else:
             full_data = np.concatenate((full_data, raw_data), axis=0)
     return full_data
 
-def split_data(data):
-    all_size = len(data)
-    train_size = int(all_size*0.8)
-    train_data = data[:train_size]
-    eval_data = data[train_size:]
-    return [train_data, eval_data]
+# def split_data(data):
+#     all_size = len(data)
+#     train_size = int(all_size*0.8)
+#     train_data = data[:train_size]
+#     eval_data = data[train_size:]
+#     return [train_data, eval_data]
 
 def visualize(predicted_data, real_data, logfile, x_test,loss1,loss2,directory):
     os.chdir(directory)
@@ -310,26 +306,28 @@ if __name__ == '__main__':
     test_log = 'test_log.csv'
     network_log = 'net_log.csv'
     # Change direction here:
-    direction = 'AB'
+    direction = 'BA'
     if direction == 'AB':
-        train_files = 2810
-        eval_files = 487
+        train_files = 1696
+        eval_files = 245
         test_file = 'data_AB_test_29.csv'
     else:
-        train_files = 2810
-        eval_files = 486
+        train_files = 1707
+        eval_files =244
         test_file = 'data_BA_test_37.csv'
     n_batch = 1000
 
     # Data loading:
-    data_dir = '/home/robot/workspaces/ur5_mpc_ursim/data_1701'
+    data_dir = '/home/robot/workspaces/data5sec_2402'
     os.chdir(data_dir)
     train_data = load_data(train_files,'train', direction)
+    random.shuffle(train_data)
     x_train = train_data[:,0:48]
     y_train = train_data[:,48:54]
     print(len(x_train))
 
     eval_data = load_data(eval_files,'eval', direction)
+    random.shuffle(eval_data)
     x_eval = eval_data[:,0:48]
     y_eval = eval_data[:,48:54]
 
@@ -340,7 +338,7 @@ if __name__ == '__main__':
     dev = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     log_dir = main_dir+run_name
     os.chdir(log_dir)
-    n = [200,200]
+    n = [200,200,200,200]
     for i in range(len(n)):
         with open(network_log,  'a') as fd:
             wr = csv.writer(fd, dialect='excel')

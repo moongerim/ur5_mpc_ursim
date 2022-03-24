@@ -3,24 +3,24 @@ import rospy
 import time
 import pandas as pd
 import csv
-from std_msgs.msg import Float64MultiArray
+from std_msgs.msg import Float64MultiArray, String
 from sensor_msgs.msg import JointState
 pos = []
-pos_136 = '/home/robot/workspaces/ur5_mpc_vrep/human_data/Participant_8410_csv/Participant_8410_Setup_A_Seq_1_Trial_1.xsens.bvh.csv'
-pos_137 = '/home/robot/workspaces/ur5_mpc_vrep/human_data/Participant_8410_csv/Participant_8410_Setup_A_Seq_1_Trial_2.xsens.bvh.csv'
-pos_138 = '/home/robot/workspaces/ur5_mpc_vrep/human_data/Participant_8410_csv/Participant_8410_Setup_A_Seq_1_Trial_3.xsens.bvh.csv'
-pos_139 = '/home/robot/workspaces/ur5_mpc_vrep/human_data/Participant_8410_csv/Participant_8410_Setup_A_Seq_1_Trial_4.xsens.bvh.csv'
-pos_140 = '/home/robot/workspaces/ur5_mpc_vrep/human_data/Participant_8410_csv/Participant_8410_Setup_A_Seq_1_Trial_5.xsens.bvh.csv'
-pos_141 = '/home/robot/workspaces/ur5_mpc_vrep/human_data/Participant_8410_csv/Participant_8410_Setup_A_Seq_2_Trial_1.xsens.bvh.csv'
-pos_142 = '/home/robot/workspaces/ur5_mpc_vrep/human_data/Participant_8410_csv/Participant_8410_Setup_A_Seq_2_Trial_2.xsens.bvh.csv'
-pos_143 = '/home/robot/workspaces/ur5_mpc_vrep/human_data/Participant_8410_csv/Participant_8410_Setup_A_Seq_2_Trial_3.xsens.bvh.csv'
-pos_144 = '/home/robot/workspaces/ur5_mpc_vrep/human_data/Participant_8410_csv/Participant_8410_Setup_A_Seq_2_Trial_4.xsens.bvh.csv'
-pos_145 = '/home/robot/workspaces/ur5_mpc_vrep/human_data/Participant_8410_csv/Participant_8410_Setup_A_Seq_2_Trial_5.xsens.bvh.csv'
-pos_146 = '/home/robot/workspaces/ur5_mpc_vrep/human_data/Participant_8410_csv/Participant_8410_Setup_A_Seq_6_Trial_1.xsens.bvh.csv'
-pos_147 = '/home/robot/workspaces/ur5_mpc_vrep/human_data/Participant_8410_csv/Participant_8410_Setup_A_Seq_6_Trial_2.xsens.bvh.csv'
-pos_148 = '/home/robot/workspaces/ur5_mpc_vrep/human_data/Participant_8410_csv/Participant_8410_Setup_A_Seq_6_Trial_3.xsens.bvh.csv'
-pos_149 = '/home/robot/workspaces/ur5_mpc_vrep/human_data/Participant_8410_csv/Participant_8410_Setup_A_Seq_6_Trial_4.xsens.bvh.csv'
-pos_150 = '/home/robot/workspaces/ur5_mpc_vrep/human_data/Participant_8410_csv/Participant_8410_Setup_A_Seq_6_Trial_5.xsens.bvh.csv'
+pos_136 = '/home/robot/workspaces/human_data/Participant_8410_csv/Participant_8410_Setup_A_Seq_1_Trial_1.xsens.bvh.csv'
+pos_137 = '/home/robot/workspaces/human_data/Participant_8410_csv/Participant_8410_Setup_A_Seq_1_Trial_2.xsens.bvh.csv'
+pos_138 = '/home/robot/workspaces/human_data/Participant_8410_csv/Participant_8410_Setup_A_Seq_1_Trial_3.xsens.bvh.csv'
+pos_139 = '/home/robot/workspaces/human_data/Participant_8410_csv/Participant_8410_Setup_A_Seq_1_Trial_4.xsens.bvh.csv'
+pos_140 = '/home/robot/workspaces/human_data/Participant_8410_csv/Participant_8410_Setup_A_Seq_1_Trial_5.xsens.bvh.csv'
+pos_141 = '/home/robot/workspaces/human_data/Participant_8410_csv/Participant_8410_Setup_A_Seq_2_Trial_1.xsens.bvh.csv'
+pos_142 = '/home/robot/workspaces/human_data/Participant_8410_csv/Participant_8410_Setup_A_Seq_2_Trial_2.xsens.bvh.csv'
+pos_143 = '/home/robot/workspaces/human_data/Participant_8410_csv/Participant_8410_Setup_A_Seq_2_Trial_3.xsens.bvh.csv'
+pos_144 = '/home/robot/workspaces/human_data/Participant_8410_csv/Participant_8410_Setup_A_Seq_2_Trial_4.xsens.bvh.csv'
+pos_145 = '/home/robot/workspaces/human_data/Participant_8410_csv/Participant_8410_Setup_A_Seq_2_Trial_5.xsens.bvh.csv'
+pos_146 = '/home/robot/workspaces/human_data/Participant_8410_csv/Participant_8410_Setup_A_Seq_6_Trial_1.xsens.bvh.csv'
+pos_147 = '/home/robot/workspaces/human_data/Participant_8410_csv/Participant_8410_Setup_A_Seq_6_Trial_2.xsens.bvh.csv'
+pos_148 = '/home/robot/workspaces/human_data/Participant_8410_csv/Participant_8410_Setup_A_Seq_6_Trial_3.xsens.bvh.csv'
+pos_149 = '/home/robot/workspaces/human_data/Participant_8410_csv/Participant_8410_Setup_A_Seq_6_Trial_4.xsens.bvh.csv'
+pos_150 = '/home/robot/workspaces/human_data/Participant_8410_csv/Participant_8410_Setup_A_Seq_6_Trial_5.xsens.bvh.csv'
 
 pos_136 = pd.read_csv(pos_136, quoting=csv.QUOTE_NONNUMERIC)
 pos_136 = pos_136.to_numpy()
@@ -89,12 +89,15 @@ def main():
                     # point_array[3*a] = (temp[i][3*a])+1.0
                     # point_array[3*a+1] = (temp[i][3*a+1])+1.0
                     # point_array[3*a+2] = (temp[i][3*a+2])-1.2
-                    point_array[3*a] = 3.0
-                    point_array[3*a+1] = 3.0
-                    point_array[3*a+2] = 0.0
+                    # point_array[3*a] = 3.0
+                    # point_array[3*a+1] = 3.0
+                    # point_array[3*a+2] = 0.0
                     # point_array[3*a] = 0.9
                     # point_array[3*a+1] = 0.9
                     # point_array[3*a+2] = 0.3
+                    point_array[3*a] = 1.3
+                    point_array[3*a+1] = 1.3
+                    point_array[3*a+2] = 0.0
                 point_array[42] = k+1
                 obstacle_data = Float64MultiArray()
                 obstacle_data.data = point_array

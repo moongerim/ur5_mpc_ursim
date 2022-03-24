@@ -18,7 +18,7 @@ ofstream myperffile;
 
 int ur_time=0;
 // int gripper = 0;
-int rti_num = 50;
+int rti_num = 30;
 MPC_solver myMpcSolver(rti_num);
 
 float dist_v(Eigen::Vector3f v, Eigen::Vector3f w){
@@ -103,8 +103,8 @@ class GoalFollower
   void change_states_msg(const std_msgs::Float64MultiArray::ConstPtr& msg) 
   { 
     for (int i=0; i<6; i++) joint_position[i] = msg->data[i];
-    for (int i=0; i<6; i++) high_goal[i] = msg->data[i+12];
-    max_diff = msg->data[18];
+    // for (int i=0; i<6; i++) high_goal[i] = msg->data[i+12];
+    // max_diff = msg->data[18];
   }
 }; 
 
@@ -137,10 +137,8 @@ int main(int argc, char **argv)
   // double read_goal[2][6] = { 3.0, -2.0, -0.1, -0.1, 1.0, 0.5,
   //                             0.0, -1.5, -1.6, -1.6, 1.6, 1.0};
 
-  // double read_goal[2][6] = { 3.0, -1.6, -1.7, -1.7, -1.7, 1.0,
-  //                            0.0, -2.3, -1.1, -1.2, -1.2, 0.5};
-  double read_goal[2][6] = { 0.0, -2.3, -1.1, -1.2, -1.2, 0.5,
-                             3.0, -1.6, -1.7, -1.7, -1.7, 1.0};
+  double read_goal[2][6] = { 3.0, -1.6, -1.7, -1.7, -1.7, 1.0,
+                             0.0, -2.3, -1.1, -1.2, -1.2, 0.5};
   double static_goal[6] = {read_goal[1][0], read_goal[1][1], read_goal[1][2], read_goal[1][3], read_goal[1][4], read_goal[1][5]};
 
   ros::Subscriber human_status = n.subscribe("/Obstacle/mpc_high_spheres", 1, &GoalFollower::change_obstacles_msg, &my_follower);
@@ -162,7 +160,7 @@ int main(int argc, char **argv)
 	  
 	  ros::Rate goto_loop(20);
 	  // ros::Duration(0.50).sleep();
-	  while (ur_time < 50){
+	  while (ur_time < 100){
       printf("time=%f \n", ur_time);
       joint_vel_values.data.clear();
       for (int i = 0; i < 12; i++) joint_vel_values.data.push_back(0.0);
@@ -177,7 +175,7 @@ int main(int argc, char **argv)
 
 	  int task = 0;
     int task_started = 0;
-	  ros::Rate loop_rate(0.2); 
+	  ros::Rate loop_rate(2); 
 
     std_msgs::Int32 msg_start;
     msg_start.data = 100;
@@ -197,8 +195,8 @@ int main(int argc, char **argv)
       // Goal reference position
       double currentState_targetValue[68];
       for (int i = 0; i < 6; ++i) currentState_targetValue[i] = my_follower.joint_position[i];
-      // for (int i = 0; i < 6; ++i) currentState_targetValue[i+6] = read_goal[row_index][i];
-      for (int i = 0; i < 6; ++i) currentState_targetValue[i+6] = my_follower.high_goal[i];
+      for (int i = 0; i < 6; ++i) currentState_targetValue[i+6] = read_goal[row_index][i];
+      // for (int i = 0; i < 6; ++i) currentState_targetValue[i+6] = my_follower.high_goal[i];
       for (int i = 0; i < 56; ++i) currentState_targetValue[i+12] = my_follower.human_sphere[i];
 
       // for (int i = 0; i < 68; ++i) printf("CRSV %i = %f\n", i, currentState_targetValue[i]);
@@ -208,12 +206,12 @@ int main(int argc, char **argv)
       // currentState_targetValue[9], currentState_targetValue[10], currentState_targetValue[11]); 
       
       double cgoal[3];
-      // Eigen::MatrixXf mat_goal = get_cpose(read_goal[row_index][0], read_goal[row_index][1], 
-		  //                                       read_goal[row_index][2], read_goal[row_index][3], 
-      //                                       read_goal[row_index][4], read_goal[row_index][5]);
-      Eigen::MatrixXf mat_goal = get_cpose(my_follower.high_goal[0], my_follower.high_goal[1], 
-		                                        my_follower.high_goal[2], my_follower.high_goal[3], 
-                                            my_follower.high_goal[4], my_follower.high_goal[5]);
+      Eigen::MatrixXf mat_goal = get_cpose(read_goal[row_index][0], read_goal[row_index][1], 
+		                                        read_goal[row_index][2], read_goal[row_index][3], 
+                                            read_goal[row_index][4], read_goal[row_index][5]);
+      // Eigen::MatrixXf mat_goal = get_cpose(my_follower.high_goal[0], my_follower.high_goal[1], 
+		  //                                       my_follower.high_goal[2], my_follower.high_goal[3], 
+      //                                       my_follower.high_goal[4], my_follower.high_goal[5]);
 
       cgoal[0] = mat_goal.coeff(0, 7);
       cgoal[1] = mat_goal.coeff(1, 7);
@@ -251,18 +249,18 @@ int main(int argc, char **argv)
       
       //*********************** Apply control ********************************
 
-      // float max_diff = 0;
-      // for (int i = 0; i < 6; ++i) {
-      //   if (abs(currentState_targetValue[i] - currentState_targetValue[i+6]) > max_diff) {
-      //     max_diff = abs(currentState_targetValue[i] - currentState_targetValue[i+6]); 
-      //   }
-      // }
-      printf("max value %f, inv_marker = %f\n",my_follower.max_diff,solutions[14]);
-      // if (max_diff < 0.01) {
-      if (my_follower.max_diff < 0.01) {
+      float max_diff = 0;
+      for (int i = 0; i < 6; ++i) {
+        if (abs(currentState_targetValue[i] - currentState_targetValue[i+6]) > max_diff) {
+          max_diff = abs(currentState_targetValue[i] - currentState_targetValue[i+6]); 
+        }
+      }
+      // printf("max value %f, inv_marker = %f\n",my_follower.max_diff,solutions[14]);
+      if (max_diff < 0.001) {
+      // if (my_follower.max_diff < 0.01) {
         row_index = (row_index+1)%2;
         printf("Arr\n");
-        // myMpcSolver.reinitialize();
+        myMpcSolver.reinitialize();
       }
 
       //******************* get_min_dist **********************
@@ -298,7 +296,7 @@ int main(int argc, char **argv)
       for (int i = 0; i < 12; i++)  joint_vel_values.data.push_back(currentState_targetValue[i]);
       for (int i = 0; i < 3; i++)  joint_vel_values.data.push_back(cgoal[i]);
       for (int i = 0; i < 3; i++) joint_vel_values.data.push_back(solutions[12+i]);
-      joint_vel_values.data.push_back(my_follower.max_diff);
+      joint_vel_values.data.push_back(max_diff);
       chatter_pub.publish(joint_vel_values);
       ros::spinOnce();
       loop_rate.sleep();
