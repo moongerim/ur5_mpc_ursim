@@ -183,8 +183,8 @@ real_t objValueIn[ 73 ];
 /** Row vector of size: 13 */
 real_t objValueOut[ 13 ];
 
-/** Column vector of size: 8426 */
-real_t conAuxVar[ 8426 ];
+/** Column vector of size: 8384 */
+real_t conAuxVar[ 8384 ];
 
 /** Row vector of size: 73 */
 real_t conValueIn[ 73 ];

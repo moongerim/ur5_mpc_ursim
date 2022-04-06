@@ -17,7 +17,7 @@ using namespace std;
 
 ofstream myfile;
 ofstream myfile_sep;
-int rti_num = 10;
+int rti_num = 5;
 
 MPC_solver myMpcSolver(rti_num);
 // double gazebo_time;
@@ -72,6 +72,7 @@ class GoalFollower
     ros::Publisher chatter_pub;
     ros::Publisher spheres_pub;
     ros::Publisher marker_pub;
+    ros::Publisher init_pub;
     double robot_spheres[7] = {0.15, 0.15, 0.15, 0.08, 0.08, 0.12, 0.1};
 
     double human_sphere[57]= {10.0517,   0.5220,   1.0895,   0.1500,
@@ -121,7 +122,11 @@ class GoalFollower
     // Member Functions() 
     void change_obstacles_msg(const std_msgs::Float64MultiArray obstacle_data) 
     { 
-      for (int i=0; i<57; i++)   human_sphere[i] = obstacle_data.data[i];
+      for (int i=0; i<57; i++)   
+      {
+        human_sphere[i] = obstacle_data.data[i];
+        // printf("human %i = %f\n", i, human_sphere[i]);
+      }
     }
 
     void change_goal_msg(const std_msgs::Float64MultiArray joint_pose_values) 
@@ -171,6 +176,10 @@ class GoalFollower
     	marker_pub.publish(data);
 	    return;
     }
+    void SendInitPose(const std_msgs::Float64MultiArray data){
+    	init_pub.publish(data);
+	    return;
+    }
 }; 
 
 int main(int argc, char **argv)
@@ -185,7 +194,7 @@ int main(int argc, char **argv)
   my_follower.chatter_pub = n.advertise<std_msgs::Float64MultiArray>("/LowController/MPC_solutions", 1);
   my_follower.spheres_pub = n.advertise<std_msgs::Float64MultiArray>("/LowController/spheres", 1);
   my_follower.marker_pub = n.advertise<visualization_msgs::Marker>("visualization_marker_hp", 10);
-
+  my_follower.init_pub = n.advertise<std_msgs::Float64MultiArray>("/LowController/init", 10);
   ROS_INFO("Goal default to: %.3f, %.3f, %.3f, %.3f, %.3f, %.3f", 
 	my_follower.goal[0], my_follower.goal[1], my_follower.goal[2],my_follower.goal[3], my_follower.goal[4], my_follower.goal[5]);
 
@@ -201,11 +210,12 @@ int main(int argc, char **argv)
   double ctp[21] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
   // linear vels of 7 test points:
   double ctv[21] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+  double ctv_linear[7] = {0,0,0,0,0,0,0};
   // min dist has 7 values for 10 test points:
   double min_dist[7] = {10000, 10000, 10000, 10000, 10000, 10000, 10000};
-  ros::Rate loop_rate(40);
+  ros::Rate loop_rate(20);
   myfile.open("data_low.csv", ios::out); 
-  myfile_sep.open("data_1703/data_0.csv", ios::out);
+  myfile_sep.open("data_3103/data_0.csv", ios::out);
   int fileseq=0;
   string filename;
   clock_t begin = clock();
@@ -214,14 +224,20 @@ int main(int argc, char **argv)
   {
     printf("max diff=%f\n",my_follower.from_high[30]);
     if(my_follower.from_high[30]<0.001){
-      printf("------------------Arrived---------------------\n");
-      myMpcSolver.reinitialize();
-      fileseq++;
-      myfile_sep.close();
-      filename = "data_1703/data_"+to_string(fileseq)+".csv";
-      myfile_sep.open(filename, ios::out);
-      sleep(2);
-    }
+      // if(my_follower.from_high[30]<0.15){
+        printf("------------------Arrived---------------------\n");
+        // std_msgs::Float64MultiArray init_data;
+        // init_data.data.clear();
+        // for (int i = 0; i < 6; i++) init_data.data.push_back(my_follower.goal[i]);
+        // init_data.data.push_back(10);
+        // my_follower.SendInitPose(init_data);
+        myMpcSolver.reinitialize();
+        fileseq++;
+        myfile_sep.close();
+        filename = "data_3103/data_"+to_string(fileseq)+".csv";
+        myfile_sep.open(filename, ios::out);
+        sleep(2);
+      }
 
     double currentState_targetValue[71];
     double tracking_goal[60];
@@ -255,9 +271,11 @@ int main(int argc, char **argv)
       ctp[j*3+0] = w[0];
       ctp[j*3+1] = w[1];
       ctp[j*3+2] = w[2];
+      // printf("w %i = %f,%f,%f\n", j, w[0], w[1], w[2]);
       for (int k = 0; k < 14; k++) {
         Eigen::Vector3f p(my_follower.human_sphere[k*4+0], my_follower.human_sphere[k*4+1], my_follower.human_sphere[k*4+2]);
         local_val = dist_v(w, p) - my_follower.robot_spheres[j] - my_follower.human_sphere[k*4+3];
+        // printf("%i %i = %f,%f\n", j, k, my_follower.robot_spheres[j], my_follower.human_sphere[k*4+3]);
         if (local_val < min_dist[j]) {
           min_dist[j] = local_val;
           spheres_dist[j] = my_follower.robot_spheres[j] + my_follower.human_sphere[k*4+3];
@@ -265,6 +283,7 @@ int main(int argc, char **argv)
       }
 	    if (smallest_dist > min_dist[j]) smallest_dist = min_dist[j];
 	  }
+    // for (int i = 0; i < 7; i++) printf("min_dist %i = %f\n", i, min_dist[i]);
     // printf("smallest d = %f\n", smallest_dist);
     
 
@@ -293,18 +312,21 @@ int main(int argc, char **argv)
                                             solutions[3], solutions[4], solutions[5]);
     double max_linear_vell = 0;
     double temp_linear_vell = 0;
+    
     for (int k=0; k<7; k++) {
       ctv[k*3+0] = vell_mat.coeff(k*3+0,0);
       ctv[k*3+1] = vell_mat.coeff(k*3+1,0);
       ctv[k*3+2] = vell_mat.coeff(k*3+2,0);
       temp_linear_vell = sqrt(vell_mat.coeff(k*3 + 0,0)*vell_mat.coeff(k*3 + 0,0) + vell_mat.coeff(k*3 + 1,0)*vell_mat.coeff(k*3 + 1,0) + vell_mat.coeff(k*3 + 2,0)*vell_mat.coeff(k*3 + 2,0));
-      
+      ctv_linear[k] = temp_linear_vell;
       max_vell[k] = temp_linear_vell;
       if (max_linear_vell < temp_linear_vell) max_linear_vell = temp_linear_vell;
     }
        //*********************** Apply control ********************************
 	  double lin_vell_limit_arr[7] = {10, 10, 10, 10, 10, 10, 10};
     double lin_vell_scale = 10;
+
+
     double alpha[7] = {2.79, 1.95, 1, 0.8, 0.65, 0.45, 0.35}; //v_mpc_lim = alpha^2.*((min_dist_arr+spheres_dist).^2-spheres_dist.^2);
     // double alpha[7] = {2.79, 1.95, 1, 0.8, 0.8, 0.8, 0.8};
     double d_bar= 0.15;
@@ -333,57 +355,64 @@ int main(int argc, char **argv)
 
     my_follower.SendVelocity(joint_vel_values);
 
-    std_msgs::Float64MultiArray spheres_data;
-    spheres_data.data.clear();
-    for (int i = 0; i < 21; i++) {
-      spheres_data.data.push_back(ctp[i]);
-    }
-    my_follower.SendCTP(spheres_data);
+    // std_msgs::Float64MultiArray init_data;
+    // init_data.data.clear();
+    // for (int i = 0; i < 6; i++) init_data.data.push_back(my_follower.goal[i]);
+    // init_data.data.push_back(0);
+    // my_follower.SendInitPose(init_data);
 
-    visualization_msgs::Marker points, line_strip, line_list;
-    points.header.frame_id = line_strip.header.frame_id = line_list.header.frame_id = "/base_link";
-    points.header.stamp = line_strip.header.stamp = line_list.header.stamp = ros::Time::now();
-    points.ns = line_strip.ns = line_list.ns = "points_and_lines";
-    points.action = line_strip.action = line_list.action = visualization_msgs::Marker::ADD;
-    points.pose.orientation.w = line_strip.pose.orientation.w = line_list.pose.orientation.w = 1.0;
-    points.id = 0;
-    line_strip.id = 1;
-    line_list.id = 2;
-    points.type = visualization_msgs::Marker::POINTS;
-    line_strip.type = visualization_msgs::Marker::LINE_STRIP;
-    line_list.type = visualization_msgs::Marker::LINE_LIST;
 
-    // POINTS markers use x and y scale for width/height respectively
-    points.scale.x = 0.1;
-    points.scale.y = 0.1;
+    // std_msgs::Float64MultiArray spheres_data;
+    // spheres_data.data.clear();
+    // for (int i = 0; i < 21; i++) {
+    //   spheres_data.data.push_back(ctp[i]);
+    // }
+    // my_follower.SendCTP(spheres_data);
 
-    // LINE_STRIP/LINE_LIST markers use only the x component of scale, for the line width
-    line_strip.scale.x = 0.1;
-    line_list.scale.x = 0.1;
-    points.color.r = 1.0f;
-    points.color.a = 1.0;
-    line_strip.color.r = 1.0;
-    line_strip.color.a = 1.0;
-    line_list.color.b = 1.0;
-    line_list.color.a = 1.0;
+    // visualization_msgs::Marker points, line_strip, line_list;
+    // points.header.frame_id = line_strip.header.frame_id = line_list.header.frame_id = "/base_link";
+    // points.header.stamp = line_strip.header.stamp = line_list.header.stamp = ros::Time::now();
+    // points.ns = line_strip.ns = line_list.ns = "points_and_lines";
+    // points.action = line_strip.action = line_list.action = visualization_msgs::Marker::ADD;
+    // points.pose.orientation.w = line_strip.pose.orientation.w = line_list.pose.orientation.w = 1.0;
+    // points.id = 0;
+    // line_strip.id = 1;
+    // line_list.id = 2;
+    // points.type = visualization_msgs::Marker::POINTS;
+    // line_strip.type = visualization_msgs::Marker::LINE_STRIP;
+    // line_list.type = visualization_msgs::Marker::LINE_LIST;
 
-    // Create the vertices for the points and lines
-    for (int i = 0; i < 14; i++)
-    {
-      geometry_msgs::Point p;
-      p.x = my_follower.human_sphere[i*4];
-      p.y = my_follower.human_sphere[i*4+1];
-      p.z = my_follower.human_sphere[i*4+2];
-      points.points.push_back(p);
-      line_strip.points.push_back(p);
-      // The line list needs two points for each line
-      line_list.points.push_back(p);
-      line_list.points.push_back(p);
-    }
+    // // POINTS markers use x and y scale for width/height respectively
+    // points.scale.x = 0.1;
+    // points.scale.y = 0.1;
 
-    my_follower.SendHP(points);
-    my_follower.SendHP(line_strip);
-    my_follower.SendHP(line_list);
+    // // LINE_STRIP/LINE_LIST markers use only the x component of scale, for the line width
+    // line_strip.scale.x = 0.1;
+    // line_list.scale.x = 0.1;
+    // points.color.r = 1.0f;
+    // points.color.a = 1.0;
+    // line_strip.color.r = 1.0;
+    // line_strip.color.a = 1.0;
+    // line_list.color.b = 1.0;
+    // line_list.color.a = 1.0;
+
+    // // Create the vertices for the points and lines
+    // for (int i = 0; i < 14; i++)
+    // {
+    //   geometry_msgs::Point p;
+    //   p.x = my_follower.human_sphere[i*4];
+    //   p.y = my_follower.human_sphere[i*4+1];
+    //   p.z = my_follower.human_sphere[i*4+2];
+    //   points.points.push_back(p);
+    //   line_strip.points.push_back(p);
+    //   // The line list needs two points for each line
+    //   line_list.points.push_back(p);
+    //   line_list.points.push_back(p);
+    // }
+
+    // my_follower.SendHP(points);
+    // my_follower.SendHP(line_strip);
+    // my_follower.SendHP(line_list);
     clock_t end = clock();
     double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
       
@@ -454,7 +483,8 @@ int main(int argc, char **argv)
       myfile <<lin_vell_limit_arr[0]<<" "<<lin_vell_limit_arr[1]<<" "<<lin_vell_limit_arr[2]<<" ";
       myfile <<lin_vell_limit_arr[3]<<" "<<lin_vell_limit_arr[4]<<" "<<lin_vell_limit_arr[5]<<" ";
       myfile <<lin_vell_limit_arr[6]<<" ";
-      myfile <<my_follower.human_sphere[56]<<" "<< time_spent <<endl;
+      myfile <<my_follower.human_sphere[56]<<" "<< time_spent <<" "<<ctv_linear[0]<<" "<<ctv_linear[1]<<" "<<ctv_linear[2]<<" ";
+      myfile <<ctv_linear[3]<<" "<<ctv_linear[4]<<" "<<ctv_linear[5]<<" "<<ctv_linear[6]<<" "<<endl;
        
     } 
     else cout << "Unable to open file";
@@ -526,7 +556,8 @@ int main(int argc, char **argv)
       myfile_sep <<lin_vell_limit_arr[0]<<" "<<lin_vell_limit_arr[1]<<" "<<lin_vell_limit_arr[2]<<" ";
       myfile_sep <<lin_vell_limit_arr[3]<<" "<<lin_vell_limit_arr[4]<<" "<<lin_vell_limit_arr[5]<<" ";
       myfile_sep <<lin_vell_limit_arr[6]<<" ";
-      myfile_sep <<my_follower.human_sphere[56]<<" "<< time_spent <<endl;
+      myfile_sep <<my_follower.human_sphere[56]<<" "<< time_spent <<" "<<ctv_linear[0]<<" "<<ctv_linear[1]<<" "<<ctv_linear[2]<<" ";
+      myfile_sep <<ctv_linear[3]<<" "<<ctv_linear[4]<<" "<<ctv_linear[5]<<" "<<ctv_linear[6]<<" "<<endl;
        
     } 
     else cout << "Unable to open file";

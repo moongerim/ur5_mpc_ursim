@@ -76,8 +76,8 @@ def main():
     global pos, position, velocity
     rospy.init_node('human_control', anonymous=True)
     # sleep_time = 0
-    # msg = rospy.wait_for_message("/flag", String)
-    msg = True
+    msg = rospy.wait_for_message("/flag", String)
+    # msg = True
     if(msg):
         # time.sleep(2)
         for k in range (len(pos)):
@@ -86,18 +86,18 @@ def main():
             for i in range (len(temp)):
                 point_array = [0]*43
                 for a in range(14):
-                    # point_array[3*a] = (temp[i][3*a])+1.0
-                    # point_array[3*a+1] = (temp[i][3*a+1])+1.0
-                    # point_array[3*a+2] = (temp[i][3*a+2])-1.2
-                    # point_array[3*a] = 3.0
-                    # point_array[3*a+1] = 3.0
+                    point_array[3*a] = (temp[i][3*a])+1.0
+                    point_array[3*a+1] = (temp[i][3*a+1])+1.0
+                    point_array[3*a+2] = (temp[i][3*a+2])-1.2
+                    # point_array[3*a] = 0.0
+                    # point_array[3*a+1] = 4.0
                     # point_array[3*a+2] = 0.0
                     # point_array[3*a] = 0.9
                     # point_array[3*a+1] = 0.9
                     # point_array[3*a+2] = 0.3
-                    point_array[3*a] = 1.3
-                    point_array[3*a+1] = 1.3
-                    point_array[3*a+2] = 0.0
+                    # point_array[3*a] = 3.0
+                    # point_array[3*a+1] = 3.0
+                    # point_array[3*a+2] = 0.0
                 point_array[42] = k+1
                 obstacle_data = Float64MultiArray()
                 obstacle_data.data = point_array

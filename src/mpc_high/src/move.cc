@@ -18,7 +18,7 @@ ofstream myperffile;
 
 int ur_time=0;
 // int gripper = 0;
-int rti_num = 30;
+int rti_num = 50;
 MPC_solver myMpcSolver(rti_num);
 
 float dist_v(Eigen::Vector3f v, Eigen::Vector3f w){
@@ -68,7 +68,133 @@ class GoalFollower
   public: 
   double robot_spheres[7] = {0.15, 0.15, 0.15, 0.08, 0.08, 0.12, 0.1};
 
-  double human_sphere[56]= {10.0517,   0.5220,   1.0895,   0.1500,
+  double human_sphere[560]= {10.0517,   0.5220,   1.0895,   0.1500,
+                              10.0658,   0.4526,   0.8624,   0.2500,
+                              10.0844,   0.7044,   0.9207,   0.1500,
+                              10.2083,   0.3075,   1.0208,   0.1500,
+                              10.0556,   0.6289,   0.7595,   0.1500,
+                              10.2024,   0.2732,   0.8478,   0.1500,
+                              10.0267,   0.5535,   0.5983,   0.1500,
+                              10.1965,   0.2389,   0.6749,   0.1500,
+                             -10.0208,   0.3964,   0.5857,   0.1000,
+                              10.0546,   0.2951,   0.6132,   0.1000,
+                             -10.1062,   0.2444,   0.5897,   0.1300,
+                             -10.0998,   0.3062,   0.5387,   0.1300,
+                              10.1908,   0.5290,   1.0016,   0.2000,
+                              10.2106,   0.4602,   0.6915,   0.2500,
+                              10.0517,   0.5220,   1.0895,   0.1500,
+                              10.0658,   0.4526,   0.8624,   0.2500,
+                              10.0844,   0.7044,   0.9207,   0.1500,
+                              10.2083,   0.3075,   1.0208,   0.1500,
+                              10.0556,   0.6289,   0.7595,   0.1500,
+                              10.2024,   0.2732,   0.8478,   0.1500,
+                              10.0267,   0.5535,   0.5983,   0.1500,
+                              10.1965,   0.2389,   0.6749,   0.1500,
+                             -10.0208,   0.3964,   0.5857,   0.1000,
+                              10.0546,   0.2951,   0.6132,   0.1000,
+                             -10.1062,   0.2444,   0.5897,   0.1300,
+                             -10.0998,   0.3062,   0.5387,   0.1300,
+                              10.1908,   0.5290,   1.0016,   0.2000,
+                              10.2106,   0.4602,   0.6915,   0.2500,
+                              10.0517,   0.5220,   1.0895,   0.1500,
+                              10.0658,   0.4526,   0.8624,   0.2500,
+                              10.0844,   0.7044,   0.9207,   0.1500,
+                              10.2083,   0.3075,   1.0208,   0.1500,
+                              10.0556,   0.6289,   0.7595,   0.1500,
+                              10.2024,   0.2732,   0.8478,   0.1500,
+                              10.0267,   0.5535,   0.5983,   0.1500,
+                              10.1965,   0.2389,   0.6749,   0.1500,
+                             -10.0208,   0.3964,   0.5857,   0.1000,
+                              10.0546,   0.2951,   0.6132,   0.1000,
+                             -10.1062,   0.2444,   0.5897,   0.1300,
+                             -10.0998,   0.3062,   0.5387,   0.1300,
+                              10.1908,   0.5290,   1.0016,   0.2000,
+                              10.2106,   0.4602,   0.6915,   0.2500,
+                              10.0517,   0.5220,   1.0895,   0.1500,
+                              10.0658,   0.4526,   0.8624,   0.2500,
+                              10.0844,   0.7044,   0.9207,   0.1500,
+                              10.2083,   0.3075,   1.0208,   0.1500,
+                              10.0556,   0.6289,   0.7595,   0.1500,
+                              10.2024,   0.2732,   0.8478,   0.1500,
+                              10.0267,   0.5535,   0.5983,   0.1500,
+                              10.1965,   0.2389,   0.6749,   0.1500,
+                             -10.0208,   0.3964,   0.5857,   0.1000,
+                              10.0546,   0.2951,   0.6132,   0.1000,
+                             -10.1062,   0.2444,   0.5897,   0.1300,
+                             -10.0998,   0.3062,   0.5387,   0.1300,
+                              10.1908,   0.5290,   1.0016,   0.2000,
+                              10.2106,   0.4602,   0.6915,   0.2500,
+                              10.0517,   0.5220,   1.0895,   0.1500,
+                              10.0658,   0.4526,   0.8624,   0.2500,
+                              10.0844,   0.7044,   0.9207,   0.1500,
+                              10.2083,   0.3075,   1.0208,   0.1500,
+                              10.0556,   0.6289,   0.7595,   0.1500,
+                              10.2024,   0.2732,   0.8478,   0.1500,
+                              10.0267,   0.5535,   0.5983,   0.1500,
+                              10.1965,   0.2389,   0.6749,   0.1500,
+                             -10.0208,   0.3964,   0.5857,   0.1000,
+                              10.0546,   0.2951,   0.6132,   0.1000,
+                             -10.1062,   0.2444,   0.5897,   0.1300,
+                             -10.0998,   0.3062,   0.5387,   0.1300,
+                              10.1908,   0.5290,   1.0016,   0.2000,
+                              10.2106,   0.4602,   0.6915,   0.2500,
+                              10.0517,   0.5220,   1.0895,   0.1500,
+                              10.0658,   0.4526,   0.8624,   0.2500,
+                              10.0844,   0.7044,   0.9207,   0.1500,
+                              10.2083,   0.3075,   1.0208,   0.1500,
+                              10.0556,   0.6289,   0.7595,   0.1500,
+                              10.2024,   0.2732,   0.8478,   0.1500,
+                              10.0267,   0.5535,   0.5983,   0.1500,
+                              10.1965,   0.2389,   0.6749,   0.1500,
+                             -10.0208,   0.3964,   0.5857,   0.1000,
+                              10.0546,   0.2951,   0.6132,   0.1000,
+                             -10.1062,   0.2444,   0.5897,   0.1300,
+                             -10.0998,   0.3062,   0.5387,   0.1300,
+                              10.1908,   0.5290,   1.0016,   0.2000,
+                              10.2106,   0.4602,   0.6915,   0.2500,
+                              10.0517,   0.5220,   1.0895,   0.1500,
+                              10.0658,   0.4526,   0.8624,   0.2500,
+                              10.0844,   0.7044,   0.9207,   0.1500,
+                              10.2083,   0.3075,   1.0208,   0.1500,
+                              10.0556,   0.6289,   0.7595,   0.1500,
+                              10.2024,   0.2732,   0.8478,   0.1500,
+                              10.0267,   0.5535,   0.5983,   0.1500,
+                              10.1965,   0.2389,   0.6749,   0.1500,
+                             -10.0208,   0.3964,   0.5857,   0.1000,
+                              10.0546,   0.2951,   0.6132,   0.1000,
+                             -10.1062,   0.2444,   0.5897,   0.1300,
+                             -10.0998,   0.3062,   0.5387,   0.1300,
+                              10.1908,   0.5290,   1.0016,   0.2000,
+                              10.2106,   0.4602,   0.6915,   0.2500,
+                              10.0517,   0.5220,   1.0895,   0.1500,
+                              10.0658,   0.4526,   0.8624,   0.2500,
+                              10.0844,   0.7044,   0.9207,   0.1500,
+                              10.2083,   0.3075,   1.0208,   0.1500,
+                              10.0556,   0.6289,   0.7595,   0.1500,
+                              10.2024,   0.2732,   0.8478,   0.1500,
+                              10.0267,   0.5535,   0.5983,   0.1500,
+                              10.1965,   0.2389,   0.6749,   0.1500,
+                             -10.0208,   0.3964,   0.5857,   0.1000,
+                              10.0546,   0.2951,   0.6132,   0.1000,
+                             -10.1062,   0.2444,   0.5897,   0.1300,
+                             -10.0998,   0.3062,   0.5387,   0.1300,
+                              10.1908,   0.5290,   1.0016,   0.2000,
+                              10.2106,   0.4602,   0.6915,   0.2500,
+                              10.0517,   0.5220,   1.0895,   0.1500,
+                              10.0658,   0.4526,   0.8624,   0.2500,
+                              10.0844,   0.7044,   0.9207,   0.1500,
+                              10.2083,   0.3075,   1.0208,   0.1500,
+                              10.0556,   0.6289,   0.7595,   0.1500,
+                              10.2024,   0.2732,   0.8478,   0.1500,
+                              10.0267,   0.5535,   0.5983,   0.1500,
+                              10.1965,   0.2389,   0.6749,   0.1500,
+                             -10.0208,   0.3964,   0.5857,   0.1000,
+                              10.0546,   0.2951,   0.6132,   0.1000,
+                             -10.1062,   0.2444,   0.5897,   0.1300,
+                             -10.0998,   0.3062,   0.5387,   0.1300,
+                              10.1908,   0.5290,   1.0016,   0.2000,
+                              10.2106,   0.4602,   0.6915,   0.2500,
+                              10.0517,   0.5220,   1.0895,   0.1500,
                               10.0658,   0.4526,   0.8624,   0.2500,
                               10.0844,   0.7044,   0.9207,   0.1500,
                               10.2083,   0.3075,   1.0208,   0.1500,
@@ -97,7 +223,17 @@ class GoalFollower
 
   void change_obstacles_msg(const std_msgs::Float64MultiArray obstacle_data) 
   { 
-    for (int i=0; i<56; i++)human_sphere[i] = obstacle_data.data[i];
+    for (int i=0; i<560; i++)
+    {
+      human_sphere[i] = obstacle_data.data[i];
+      // printf("human rad 1=%f,%f,%f,%f,%f,%f,%f,%f,%f,%f\n", human_sphere[3], human_sphere[59], human_sphere[115],
+      // human_sphere[171],human_sphere[227],human_sphere[283],human_sphere[339],human_sphere[395],
+      // human_sphere[451],human_sphere[507]);
+    }
+    // for (int i=0; i<140; i++){
+    //   printf("human %i = %f, %f, %f, %f\n", i, human_sphere[4*i], human_sphere[4*i+1], human_sphere[4*i+2], human_sphere[4*i+3]);
+    // }
+    
   }
 
   void change_states_msg(const std_msgs::Float64MultiArray::ConstPtr& msg) 
@@ -180,7 +316,9 @@ int main(int argc, char **argv)
     std_msgs::Int32 msg_start;
     msg_start.data = 100;
     StartHigh.publish(msg_start);
-
+    double smallest_dist;
+    double local_val;
+    clock_t begin = clock();
 	  while (ros::ok())
 	  {
       // change to arrive check. add ~1.5s before next entrance
@@ -193,32 +331,21 @@ int main(int argc, char **argv)
       }
 
       // Goal reference position
-      double currentState_targetValue[68];
+      double currentState_targetValue[572];
       for (int i = 0; i < 6; ++i) currentState_targetValue[i] = my_follower.joint_position[i];
       for (int i = 0; i < 6; ++i) currentState_targetValue[i+6] = read_goal[row_index][i];
-      // for (int i = 0; i < 6; ++i) currentState_targetValue[i+6] = my_follower.high_goal[i];
-      for (int i = 0; i < 56; ++i) currentState_targetValue[i+12] = my_follower.human_sphere[i];
-
-      // for (int i = 0; i < 68; ++i) printf("CRSV %i = %f\n", i, currentState_targetValue[i]);
-      
-      // ROS_INFO("Goal set to: %.3f, %.3f, %.3f, %.3f, %.3f, %.3f", 
-	    // currentState_targetValue[6], currentState_targetValue[7], currentState_targetValue[8],
-      // currentState_targetValue[9], currentState_targetValue[10], currentState_targetValue[11]); 
+      for (int i = 0; i < 560; ++i) currentState_targetValue[i+12] = my_follower.human_sphere[i];
       
       double cgoal[3];
       Eigen::MatrixXf mat_goal = get_cpose(read_goal[row_index][0], read_goal[row_index][1], 
 		                                        read_goal[row_index][2], read_goal[row_index][3], 
                                             read_goal[row_index][4], read_goal[row_index][5]);
-      // Eigen::MatrixXf mat_goal = get_cpose(my_follower.high_goal[0], my_follower.high_goal[1], 
-		  //                                       my_follower.high_goal[2], my_follower.high_goal[3], 
-      //                                       my_follower.high_goal[4], my_follower.high_goal[5]);
 
       cgoal[0] = mat_goal.coeff(0, 7);
       cgoal[1] = mat_goal.coeff(1, 7);
       cgoal[2] = mat_goal.coeff(2, 7);
 
-      
-
+    
       // ROS_INFO("cartesian Goal set to: %.3f, %.3f, %.3f", cgoal[0], cgoal[1], cgoal[2]); 
       // end Cartesian Goal
  
@@ -255,42 +382,40 @@ int main(int argc, char **argv)
           max_diff = abs(currentState_targetValue[i] - currentState_targetValue[i+6]); 
         }
       }
-      // printf("max value %f, inv_marker = %f\n",my_follower.max_diff,solutions[14]);
       if (max_diff < 0.001) {
-      // if (my_follower.max_diff < 0.01) {
         row_index = (row_index+1)%2;
-        printf("Arr\n");
-        myMpcSolver.reinitialize();
+        clock_t end = clock();
+        double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+        printf("Arrived in %f sec\n", time_spent-1);
+        begin = clock();
+        // myMpcSolver.reinitialize();
       }
 
-      //******************* get_min_dist **********************
-	    // float local_val = 10000;
-	    double smallest_dist = 10000;
+      local_val = 10000;
+	    smallest_dist = 10000;
 	    double min_dist[7] = {10000, 10000, 10000, 10000, 10000, 10000, 10000};
 		  Eigen::MatrixXf mat2 = get_cpose(my_follower.joint_position[0], my_follower.joint_position[1], 
                                        my_follower.joint_position[2], my_follower.joint_position[3], 
                                        my_follower.joint_position[4], my_follower.joint_position[5]);
-	    // double acado[14]={0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-      for (int j = 0; j<7; j++){
-        Eigen::Vector3f w;
-        w = mat2.col(j+1).transpose();
-        for (int i = 0; i < 14; i++) {
-          double local_val[14] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-		      Eigen::Vector3f p(my_follower.human_sphere[i*4+0],my_follower.human_sphere[i*4+1],my_follower.human_sphere[i*4+2]);
-		      local_val[i] = dist_v(w, p)-my_follower.robot_spheres[j]-my_follower.human_sphere[i*4+3];
-          // acado[i] = max_vell[j] - local_val[i]*alpha[j]*alpha[j];
-          // if (acado[i]>0){
-          //   printf("------res: j= %i, i = %j\n", j, i);
-          // }
-          if (min_dist[j]>local_val[i]) min_dist[j] = local_val[i];
-		    }
-        // printf("j=%i,acado=%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f\n", j,acado[0],acado[1],acado[2],acado[3],acado[4],acado[5],acado[6],acado[7],acado[8],acado[9],acado[10],acado[11],acado[12],acado[13]);
-		    if (smallest_dist > min_dist[j]) smallest_dist = min_dist[j];
-	    }
+	    for (int j = 0; j < 7; j++) {
+      // printf("%i = %f\n", j, my_follower.robot_spheres[j]);
+      Eigen::Vector3f w;
+      w = mat2.col(j+1).transpose();
+      
+      for (int k = 0; k < 14; k++) {
+        Eigen::Vector3f p(my_follower.human_sphere[k*4+0], my_follower.human_sphere[k*4+1], my_follower.human_sphere[k*4+2]);
+        local_val = dist_v(w, p) - my_follower.robot_spheres[j] - my_follower.human_sphere[k*4+3];
+        // printf("%i %i = %f,%f\n", j, k, my_follower.robot_spheres[j], my_follower.human_sphere[k*4+3]);
+        if (local_val < min_dist[j]) {
+          min_dist[j] = local_val;
+        }
+      }
+	    if (smallest_dist > min_dist[j]) smallest_dist = min_dist[j];
+	  }
 
       
-      //  for (int i = 0; i < 10; i++) printf("min_dist %i = %f\n", i, min_dist[i]);
-      printf("smallest d = %f\n", smallest_dist);
+      //  for (int i = 0; i < 7; i++) printf("min_dist %i = %f\n", i, min_dist[i]);
+      printf("RH dist = %f, to goal = %f\n", smallest_dist, max_diff);
       joint_vel_values.data.clear();
       for (int i = 0; i < 12; i++) joint_vel_values.data.push_back(solutions[i]);
       for (int i = 0; i < 12; i++)  joint_vel_values.data.push_back(currentState_targetValue[i]);

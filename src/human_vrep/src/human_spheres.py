@@ -99,7 +99,6 @@ pos_87 = '/home/robot/workspaces/human_data/Participant_5124_csv/Participant_512
 pos_88 = '/home/robot/workspaces/human_data/Participant_5124_csv/Participant_5124_Setup_B_Seq_5_Trial_3.xsens.bvh.csv'
 pos_89 = '/home/robot/workspaces/human_data/Participant_5124_csv/Participant_5124_Setup_B_Seq_5_Trial_4.xsens.bvh.csv'
 pos_90 = '/home/robot/workspaces/human_data/Participant_5124_csv/Participant_5124_Setup_B_Seq_5_Trial_5.xsens.bvh.csv'
-
 pos_91 = '/home/robot/workspaces/human_data/Participant_5319_csv/Participant_5319_csv/Participant_5319_Setup_B_Seq_2_Trial_1.xsens.bvh.csv'
 pos_92 = '/home/robot/workspaces/human_data/Participant_5319_csv/Participant_5319_csv/Participant_5319_Setup_B_Seq_2_Trial_2.xsens.bvh.csv'
 pos_93 = '/home/robot/workspaces/human_data/Participant_5319_csv/Participant_5319_csv/Participant_5319_Setup_B_Seq_2_Trial_3.xsens.bvh.csv'
@@ -145,72 +144,73 @@ pos_132 = '/home/robot/workspaces/human_data/Participant_5535_csv/Participant_55
 pos_133 = '/home/robot/workspaces/human_data/Participant_5535_csv/Participant_5535_Setup_A_Seq_5_Trial_3.xsens.bvh.csv'
 pos_134 = '/home/robot/workspaces/human_data/Participant_5535_csv/Participant_5535_Setup_A_Seq_5_Trial_4.xsens.bvh.csv'
 pos_135 = '/home/robot/workspaces/human_data/Participant_5535_csv/Participant_5535_Setup_A_Seq_5_Trial_5.xsens.bvh.csv'
-
-# For testing
-pos_136 = '/home/robot/workspaces/human_data/Participant_8410_csv/Participant_8410_Setup_A_Seq_1_Trial_1.xsens.bvh.csv'
-pos_137 = '/home/robot/workspaces/human_data/Participant_8410_csv/Participant_8410_Setup_A_Seq_1_Trial_2.xsens.bvh.csv'
-pos_138 = '/home/robot/workspaces/human_data/Participant_8410_csv/Participant_8410_Setup_A_Seq_1_Trial_3.xsens.bvh.csv'
-pos_139 = '/home/robot/workspaces/human_data/Participant_8410_csv/Participant_8410_Setup_A_Seq_1_Trial_4.xsens.bvh.csv'
-pos_140 = '/home/robot/workspaces/human_data/Participant_8410_csv/Participant_8410_Setup_A_Seq_1_Trial_5.xsens.bvh.csv'
-pos_141 = '/home/robot/workspaces/human_data/Participant_8410_csv/Participant_8410_Setup_A_Seq_2_Trial_1.xsens.bvh.csv'
-pos_142 = '/home/robot/workspaces/human_data/Participant_8410_csv/Participant_8410_Setup_A_Seq_2_Trial_2.xsens.bvh.csv'
-pos_143 = '/home/robot/workspaces/human_data/Participant_8410_csv/Participant_8410_Setup_A_Seq_2_Trial_3.xsens.bvh.csv'
-pos_144 = '/home/robot/workspaces/human_data/Participant_8410_csv/Participant_8410_Setup_A_Seq_2_Trial_4.xsens.bvh.csv'
-pos_145 = '/home/robot/workspaces/human_data/Participant_8410_csv/Participant_8410_Setup_A_Seq_2_Trial_5.xsens.bvh.csv'
-pos_146 = '/home/robot/workspaces/human_data/Participant_8410_csv/Participant_8410_Setup_A_Seq_6_Trial_1.xsens.bvh.csv'
-pos_147 = '/home/robot/workspaces/human_data/Participant_8410_csv/Participant_8410_Setup_A_Seq_6_Trial_2.xsens.bvh.csv'
-pos_148 = '/home/robot/workspaces/human_data/Participant_8410_csv/Participant_8410_Setup_A_Seq_6_Trial_3.xsens.bvh.csv'
-pos_149 = '/home/robot/workspaces/human_data/Participant_8410_csv/Participant_8410_Setup_A_Seq_6_Trial_4.xsens.bvh.csv'
-pos_150 = '/home/robot/workspaces/human_data/Participant_8410_csv/Participant_8410_Setup_A_Seq_6_Trial_5.xsens.bvh.csv'
-
-# Train
-pos_151 = '/home/robot/workspaces/human_data/Participant_8524_csv/Participant_8524_Setup_B_Seq_2_Trial_1.xsens.bvh.csv'
-pos_152 = '/home/robot/workspaces/human_data/Participant_8524_csv/Participant_8524_Setup_B_Seq_2_Trial_2.xsens.bvh.csv'
-pos_153 = '/home/robot/workspaces/human_data/Participant_8524_csv/Participant_8524_Setup_B_Seq_2_Trial_3.xsens.bvh.csv'
-pos_154 = '/home/robot/workspaces/human_data/Participant_8524_csv/Participant_8524_Setup_B_Seq_2_Trial_4.xsens.bvh.csv'
-pos_155 = '/home/robot/workspaces/human_data/Participant_8524_csv/Participant_8524_Setup_B_Seq_2_Trial_5.xsens.bvh.csv'
-pos_156 = '/home/robot/workspaces/human_data/Participant_8524_csv/Participant_8524_Setup_B_Seq_4_Trial_1.xsens.bvh.csv'
-pos_157 = '/home/robot/workspaces/human_data/Participant_8524_csv/Participant_8524_Setup_B_Seq_4_Trial_2.xsens.bvh.csv'
-pos_158 = '/home/robot/workspaces/human_data/Participant_8524_csv/Participant_8524_Setup_B_Seq_4_Trial_3.xsens.bvh.csv'
-pos_159 = '/home/robot/workspaces/human_data/Participant_8524_csv/Participant_8524_Setup_B_Seq_4_Trial_4.xsens.bvh.csv'
-pos_160 = '/home/robot/workspaces/human_data/Participant_8524_csv/Participant_8524_Setup_B_Seq_4_Trial_5.xsens.bvh.csv'
-pos_161 = '/home/robot/workspaces/human_data/Participant_8524_csv/Participant_8524_Setup_B_Seq_6_Trial_1.xsens.bvh.csv'
-pos_162 = '/home/robot/workspaces/human_data/Participant_8524_csv/Participant_8524_Setup_B_Seq_6_Trial_2.xsens.bvh.csv'
-pos_163 = '/home/robot/workspaces/human_data/Participant_8524_csv/Participant_8524_Setup_B_Seq_6_Trial_3.xsens.bvh.csv'
-pos_164 = '/home/robot/workspaces/human_data/Participant_8524_csv/Participant_8524_Setup_B_Seq_6_Trial_4.xsens.bvh.csv'
-pos_165 = '/home/robot/workspaces/human_data/Participant_8524_csv/Participant_8524_Setup_B_Seq_6_Trial_5.xsens.bvh.csv'
+pos_136 = '/home/robot/workspaces/human_data/Participant_8524_csv/Participant_8524_Setup_B_Seq_2_Trial_1.xsens.bvh.csv'
+pos_137 = '/home/robot/workspaces/human_data/Participant_8524_csv/Participant_8524_Setup_B_Seq_2_Trial_2.xsens.bvh.csv'
+pos_138 = '/home/robot/workspaces/human_data/Participant_8524_csv/Participant_8524_Setup_B_Seq_2_Trial_3.xsens.bvh.csv'
+pos_139 = '/home/robot/workspaces/human_data/Participant_8524_csv/Participant_8524_Setup_B_Seq_2_Trial_4.xsens.bvh.csv'
+pos_140 = '/home/robot/workspaces/human_data/Participant_8524_csv/Participant_8524_Setup_B_Seq_2_Trial_5.xsens.bvh.csv'
+pos_141 = '/home/robot/workspaces/human_data/Participant_8524_csv/Participant_8524_Setup_B_Seq_4_Trial_1.xsens.bvh.csv'
+pos_142 = '/home/robot/workspaces/human_data/Participant_8524_csv/Participant_8524_Setup_B_Seq_4_Trial_2.xsens.bvh.csv'
+pos_143 = '/home/robot/workspaces/human_data/Participant_8524_csv/Participant_8524_Setup_B_Seq_4_Trial_3.xsens.bvh.csv'
+pos_144 = '/home/robot/workspaces/human_data/Participant_8524_csv/Participant_8524_Setup_B_Seq_4_Trial_4.xsens.bvh.csv'
+pos_145 = '/home/robot/workspaces/human_data/Participant_8524_csv/Participant_8524_Setup_B_Seq_4_Trial_5.xsens.bvh.csv'
+pos_146 = '/home/robot/workspaces/human_data/Participant_8524_csv/Participant_8524_Setup_B_Seq_6_Trial_1.xsens.bvh.csv'
+pos_147 = '/home/robot/workspaces/human_data/Participant_8524_csv/Participant_8524_Setup_B_Seq_6_Trial_2.xsens.bvh.csv'
+pos_148 = '/home/robot/workspaces/human_data/Participant_8524_csv/Participant_8524_Setup_B_Seq_6_Trial_3.xsens.bvh.csv'
+pos_149 = '/home/robot/workspaces/human_data/Participant_8524_csv/Participant_8524_Setup_B_Seq_6_Trial_4.xsens.bvh.csv'
+pos_150 = '/home/robot/workspaces/human_data/Participant_8524_csv/Participant_8524_Setup_B_Seq_6_Trial_5.xsens.bvh.csv'
 
 # For validation
-pos_166 = '/home/robot/workspaces/human_data/Participant_9266_csv/Participant_9266_Setup_B_Seq_1_Trial_1.xsens.bvh.csv'
-pos_167 = '/home/robot/workspaces/human_data/Participant_9266_csv/Participant_9266_Setup_B_Seq_1_Trial_2.xsens.bvh.csv'
-pos_168 = '/home/robot/workspaces/human_data/Participant_9266_csv/Participant_9266_Setup_B_Seq_1_Trial_3.xsens.bvh.csv'
-pos_169 = '/home/robot/workspaces/human_data/Participant_9266_csv/Participant_9266_Setup_B_Seq_1_Trial_4.xsens.bvh.csv'
-pos_170 = '/home/robot/workspaces/human_data/Participant_9266_csv/Participant_9266_Setup_B_Seq_1_Trial_5.xsens.bvh.csv'
-pos_171 = '/home/robot/workspaces/human_data/Participant_9266_csv/Participant_9266_Setup_B_Seq_4_Trial_1.xsens.bvh.csv'
-pos_172 = '/home/robot/workspaces/human_data/Participant_9266_csv/Participant_9266_Setup_B_Seq_4_Trial_2.xsens.bvh.csv'
-pos_173 = '/home/robot/workspaces/human_data/Participant_9266_csv/Participant_9266_Setup_B_Seq_4_Trial_3.xsens.bvh.csv'
-pos_174 = '/home/robot/workspaces/human_data/Participant_9266_csv/Participant_9266_Setup_B_Seq_4_Trial_4.xsens.bvh.csv'
-pos_175 = '/home/robot/workspaces/human_data/Participant_9266_csv/Participant_9266_Setup_B_Seq_4_Trial_5.xsens.bvh.csv'
-pos_176 = '/home/robot/workspaces/human_data/Participant_9266_csv/Participant_9266_Setup_B_Seq_5_Trial_1.xsens.bvh.csv'
-pos_177 = '/home/robot/workspaces/human_data/Participant_9266_csv/Participant_9266_Setup_B_Seq_5_Trial_2.xsens.bvh.csv'
-pos_178 = '/home/robot/workspaces/human_data/Participant_9266_csv/Participant_9266_Setup_B_Seq_5_Trial_3.xsens.bvh.csv'
-pos_179 = '/home/robot/workspaces/human_data/Participant_9266_csv/Participant_9266_Setup_B_Seq_5_Trial_4.xsens.bvh.csv'
-pos_180 = '/home/robot/workspaces/human_data/Participant_9266_csv/Participant_9266_Setup_B_Seq_5_Trial_5.xsens.bvh.csv'
-pos_181 = '/home/robot/workspaces/human_data/Participant_9875_csv/Participant_9875_Setup_B_Seq_1_Trial_1.xsens.bvh.csv'
-pos_182 = '/home/robot/workspaces/human_data/Participant_9875_csv/Participant_9875_Setup_B_Seq_1_Trial_2.xsens.bvh.csv'
-pos_183 = '/home/robot/workspaces/human_data/Participant_9875_csv/Participant_9875_Setup_B_Seq_1_Trial_3.xsens.bvh.csv'
-pos_184 = '/home/robot/workspaces/human_data/Participant_9875_csv/Participant_9875_Setup_B_Seq_1_Trial_4.xsens.bvh.csv'
-pos_185 = '/home/robot/workspaces/human_data/Participant_9875_csv/Participant_9875_Setup_B_Seq_1_Trial_5.xsens.bvh.csv'
-pos_186 = '/home/robot/workspaces/human_data/Participant_9875_csv/Participant_9875_Setup_B_Seq_3_Trial_1.xsens.bvh.csv'
-pos_187 = '/home/robot/workspaces/human_data/Participant_9875_csv/Participant_9875_Setup_B_Seq_3_Trial_2.xsens.bvh.csv'
-pos_188 = '/home/robot/workspaces/human_data/Participant_9875_csv/Participant_9875_Setup_B_Seq_3_Trial_3.xsens.bvh.csv'
-pos_189 = '/home/robot/workspaces/human_data/Participant_9875_csv/Participant_9875_Setup_B_Seq_3_Trial_4.xsens.bvh.csv'
-pos_190 = '/home/robot/workspaces/human_data/Participant_9875_csv/Participant_9875_Setup_B_Seq_3_Trial_5.xsens.bvh.csv'
-pos_191 = '/home/robot/workspaces/human_data/Participant_9875_csv/Participant_9875_Setup_B_Seq_4_Trial_1.xsens.bvh.csv'
-pos_192 = '/home/robot/workspaces/human_data/Participant_9875_csv/Participant_9875_Setup_B_Seq_4_Trial_2.xsens.bvh.csv'
-pos_193 = '/home/robot/workspaces/human_data/Participant_9875_csv/Participant_9875_Setup_B_Seq_4_Trial_3.xsens.bvh.csv'
-pos_194 = '/home/robot/workspaces/human_data/Participant_9875_csv/Participant_9875_Setup_B_Seq_4_Trial_4.xsens.bvh.csv'
-pos_195 = '/home/robot/workspaces/human_data/Participant_9875_csv/Participant_9875_Setup_B_Seq_4_Trial_5.xsens.bvh.csv'
+pos_151 = '/home/robot/workspaces/human_data/Participant_9266_csv/Participant_9266_Setup_B_Seq_1_Trial_1.xsens.bvh.csv'
+pos_152 = '/home/robot/workspaces/human_data/Participant_9266_csv/Participant_9266_Setup_B_Seq_1_Trial_2.xsens.bvh.csv'
+pos_153 = '/home/robot/workspaces/human_data/Participant_9266_csv/Participant_9266_Setup_B_Seq_1_Trial_3.xsens.bvh.csv'
+pos_154 = '/home/robot/workspaces/human_data/Participant_9266_csv/Participant_9266_Setup_B_Seq_1_Trial_4.xsens.bvh.csv'
+pos_155 = '/home/robot/workspaces/human_data/Participant_9266_csv/Participant_9266_Setup_B_Seq_1_Trial_5.xsens.bvh.csv'
+pos_156 = '/home/robot/workspaces/human_data/Participant_9266_csv/Participant_9266_Setup_B_Seq_4_Trial_1.xsens.bvh.csv'
+pos_157 = '/home/robot/workspaces/human_data/Participant_9266_csv/Participant_9266_Setup_B_Seq_4_Trial_2.xsens.bvh.csv'
+pos_158 = '/home/robot/workspaces/human_data/Participant_9266_csv/Participant_9266_Setup_B_Seq_4_Trial_3.xsens.bvh.csv'
+pos_159 = '/home/robot/workspaces/human_data/Participant_9266_csv/Participant_9266_Setup_B_Seq_4_Trial_4.xsens.bvh.csv'
+pos_160 = '/home/robot/workspaces/human_data/Participant_9266_csv/Participant_9266_Setup_B_Seq_4_Trial_5.xsens.bvh.csv'
+pos_161 = '/home/robot/workspaces/human_data/Participant_9266_csv/Participant_9266_Setup_B_Seq_5_Trial_1.xsens.bvh.csv'
+pos_162 = '/home/robot/workspaces/human_data/Participant_9266_csv/Participant_9266_Setup_B_Seq_5_Trial_2.xsens.bvh.csv'
+pos_163 = '/home/robot/workspaces/human_data/Participant_9266_csv/Participant_9266_Setup_B_Seq_5_Trial_3.xsens.bvh.csv'
+pos_164 = '/home/robot/workspaces/human_data/Participant_9266_csv/Participant_9266_Setup_B_Seq_5_Trial_4.xsens.bvh.csv'
+pos_165 = '/home/robot/workspaces/human_data/Participant_9266_csv/Participant_9266_Setup_B_Seq_5_Trial_5.xsens.bvh.csv'
+pos_166 = '/home/robot/workspaces/human_data/Participant_9875_csv/Participant_9875_Setup_B_Seq_1_Trial_1.xsens.bvh.csv'
+pos_167 = '/home/robot/workspaces/human_data/Participant_9875_csv/Participant_9875_Setup_B_Seq_1_Trial_2.xsens.bvh.csv'
+pos_168 = '/home/robot/workspaces/human_data/Participant_9875_csv/Participant_9875_Setup_B_Seq_1_Trial_3.xsens.bvh.csv'
+pos_169 = '/home/robot/workspaces/human_data/Participant_9875_csv/Participant_9875_Setup_B_Seq_1_Trial_4.xsens.bvh.csv'
+pos_170 = '/home/robot/workspaces/human_data/Participant_9875_csv/Participant_9875_Setup_B_Seq_1_Trial_5.xsens.bvh.csv'
+pos_171 = '/home/robot/workspaces/human_data/Participant_9875_csv/Participant_9875_Setup_B_Seq_3_Trial_1.xsens.bvh.csv'
+pos_172 = '/home/robot/workspaces/human_data/Participant_9875_csv/Participant_9875_Setup_B_Seq_3_Trial_2.xsens.bvh.csv'
+pos_173 = '/home/robot/workspaces/human_data/Participant_9875_csv/Participant_9875_Setup_B_Seq_3_Trial_3.xsens.bvh.csv'
+pos_174 = '/home/robot/workspaces/human_data/Participant_9875_csv/Participant_9875_Setup_B_Seq_3_Trial_4.xsens.bvh.csv'
+pos_175 = '/home/robot/workspaces/human_data/Participant_9875_csv/Participant_9875_Setup_B_Seq_3_Trial_5.xsens.bvh.csv'
+pos_176 = '/home/robot/workspaces/human_data/Participant_9875_csv/Participant_9875_Setup_B_Seq_4_Trial_1.xsens.bvh.csv'
+pos_177 = '/home/robot/workspaces/human_data/Participant_9875_csv/Participant_9875_Setup_B_Seq_4_Trial_2.xsens.bvh.csv'
+pos_178 = '/home/robot/workspaces/human_data/Participant_9875_csv/Participant_9875_Setup_B_Seq_4_Trial_3.xsens.bvh.csv'
+pos_179 = '/home/robot/workspaces/human_data/Participant_9875_csv/Participant_9875_Setup_B_Seq_4_Trial_4.xsens.bvh.csv'
+pos_180 = '/home/robot/workspaces/human_data/Participant_9875_csv/Participant_9875_Setup_B_Seq_4_Trial_5.xsens.bvh.csv'
+
+
+# For testing
+pos_181 = '/home/robot/workspaces/human_data/Participant_8410_csv/Participant_8410_Setup_A_Seq_1_Trial_1.xsens.bvh.csv'
+pos_182 = '/home/robot/workspaces/human_data/Participant_8410_csv/Participant_8410_Setup_A_Seq_1_Trial_2.xsens.bvh.csv'
+pos_183 = '/home/robot/workspaces/human_data/Participant_8410_csv/Participant_8410_Setup_A_Seq_1_Trial_3.xsens.bvh.csv'
+pos_184 = '/home/robot/workspaces/human_data/Participant_8410_csv/Participant_8410_Setup_A_Seq_1_Trial_4.xsens.bvh.csv'
+pos_185 = '/home/robot/workspaces/human_data/Participant_8410_csv/Participant_8410_Setup_A_Seq_1_Trial_5.xsens.bvh.csv'
+pos_186 = '/home/robot/workspaces/human_data/Participant_8410_csv/Participant_8410_Setup_A_Seq_2_Trial_1.xsens.bvh.csv'
+pos_187 = '/home/robot/workspaces/human_data/Participant_8410_csv/Participant_8410_Setup_A_Seq_2_Trial_2.xsens.bvh.csv'
+pos_188 = '/home/robot/workspaces/human_data/Participant_8410_csv/Participant_8410_Setup_A_Seq_2_Trial_3.xsens.bvh.csv'
+pos_189 = '/home/robot/workspaces/human_data/Participant_8410_csv/Participant_8410_Setup_A_Seq_2_Trial_4.xsens.bvh.csv'
+pos_190 = '/home/robot/workspaces/human_data/Participant_8410_csv/Participant_8410_Setup_A_Seq_2_Trial_5.xsens.bvh.csv'
+pos_191 = '/home/robot/workspaces/human_data/Participant_8410_csv/Participant_8410_Setup_A_Seq_6_Trial_1.xsens.bvh.csv'
+pos_192 = '/home/robot/workspaces/human_data/Participant_8410_csv/Participant_8410_Setup_A_Seq_6_Trial_2.xsens.bvh.csv'
+pos_193 = '/home/robot/workspaces/human_data/Participant_8410_csv/Participant_8410_Setup_A_Seq_6_Trial_3.xsens.bvh.csv'
+pos_194 = '/home/robot/workspaces/human_data/Participant_8410_csv/Participant_8410_Setup_A_Seq_6_Trial_4.xsens.bvh.csv'
+pos_195 = '/home/robot/workspaces/human_data/Participant_8410_csv/Participant_8410_Setup_A_Seq_6_Trial_5.xsens.bvh.csv'
+
+
 # pos_1 = pd.read_csv(pos_1, quoting=csv.QUOTE_NONNUMERIC)
 # pos_1 = pos_1.to_numpy()
 # pos.append(pos_1)
@@ -616,55 +616,52 @@ pos_195 = '/home/robot/workspaces/human_data/Participant_9875_csv/Participant_98
 # pos_135 = pd.read_csv(pos_135, quoting=csv.QUOTE_NONNUMERIC)
 # pos_135 = pos_135.to_numpy()
 # pos.append(pos_135)
-
-# TEST
-pos_136 = pd.read_csv(pos_136, quoting=csv.QUOTE_NONNUMERIC)
-pos_136 = pos_136.to_numpy()
-pos.append(pos_136)
-pos_137 = pd.read_csv(pos_137, quoting=csv.QUOTE_NONNUMERIC)
-pos_137 = pos_137.to_numpy()
-pos.append(pos_137)
-pos_138 = pd.read_csv(pos_138, quoting=csv.QUOTE_NONNUMERIC)
-pos_138 = pos_138.to_numpy()
-pos.append(pos_138)
-pos_139 = pd.read_csv(pos_139, quoting=csv.QUOTE_NONNUMERIC)
-pos_139 = pos_139.to_numpy()
-pos.append(pos_139)
-pos_140 = pd.read_csv(pos_140, quoting=csv.QUOTE_NONNUMERIC)
-pos_140 = pos_140.to_numpy()
-pos.append(pos_140)
-pos_141 = pd.read_csv(pos_141, quoting=csv.QUOTE_NONNUMERIC)
-pos_141 = pos_141.to_numpy()
-pos.append(pos_141)
-pos_142 = pd.read_csv(pos_142, quoting=csv.QUOTE_NONNUMERIC)
-pos_142 = pos_142.to_numpy()
-pos.append(pos_142)
-pos_143 = pd.read_csv(pos_143, quoting=csv.QUOTE_NONNUMERIC)
-pos_143 = pos_143.to_numpy()
-pos.append(pos_143)
-pos_144 = pd.read_csv(pos_144, quoting=csv.QUOTE_NONNUMERIC)
-pos_144 = pos_144.to_numpy()
-pos.append(pos_144)
-pos_145 = pd.read_csv(pos_145, quoting=csv.QUOTE_NONNUMERIC)
-pos_145 = pos_145.to_numpy()
-pos.append(pos_145)
-pos_146 = pd.read_csv(pos_146, quoting=csv.QUOTE_NONNUMERIC)
-pos_146 = pos_146.to_numpy()
-pos.append(pos_146)
-pos_147 = pd.read_csv(pos_147, quoting=csv.QUOTE_NONNUMERIC)
-pos_147 = pos_147.to_numpy()
-pos.append(pos_147)
-pos_148 = pd.read_csv(pos_148, quoting=csv.QUOTE_NONNUMERIC)
-pos_148 = pos_148.to_numpy()
-pos.append(pos_148)
-pos_149 = pd.read_csv(pos_149, quoting=csv.QUOTE_NONNUMERIC)
-pos_149 = pos_149.to_numpy()
-pos.append(pos_149)
-pos_150 = pd.read_csv(pos_150, quoting=csv.QUOTE_NONNUMERIC)
-pos_150 = pos_150.to_numpy()
-pos.append(pos_150)
-
-# TRAIN
+# pos_136 = pd.read_csv(pos_136, quoting=csv.QUOTE_NONNUMERIC)
+# pos_136 = pos_136.to_numpy()
+# pos.append(pos_136)
+# pos_137 = pd.read_csv(pos_137, quoting=csv.QUOTE_NONNUMERIC)
+# pos_137 = pos_137.to_numpy()
+# pos.append(pos_137)
+# pos_138 = pd.read_csv(pos_138, quoting=csv.QUOTE_NONNUMERIC)
+# pos_138 = pos_138.to_numpy()
+# pos.append(pos_138)
+# pos_139 = pd.read_csv(pos_139, quoting=csv.QUOTE_NONNUMERIC)
+# pos_139 = pos_139.to_numpy()
+# pos.append(pos_139)
+# pos_140 = pd.read_csv(pos_140, quoting=csv.QUOTE_NONNUMERIC)
+# pos_140 = pos_140.to_numpy()
+# pos.append(pos_140)
+# pos_141 = pd.read_csv(pos_141, quoting=csv.QUOTE_NONNUMERIC)
+# pos_141 = pos_141.to_numpy()
+# pos.append(pos_141)
+# pos_142 = pd.read_csv(pos_142, quoting=csv.QUOTE_NONNUMERIC)
+# pos_142 = pos_142.to_numpy()
+# pos.append(pos_142)
+# pos_143 = pd.read_csv(pos_143, quoting=csv.QUOTE_NONNUMERIC)
+# pos_143 = pos_143.to_numpy()
+# pos.append(pos_143)
+# pos_144 = pd.read_csv(pos_144, quoting=csv.QUOTE_NONNUMERIC)
+# pos_144 = pos_144.to_numpy()
+# pos.append(pos_144)
+# pos_145 = pd.read_csv(pos_145, quoting=csv.QUOTE_NONNUMERIC)
+# pos_145 = pos_145.to_numpy()
+# pos.append(pos_145)
+# pos_146 = pd.read_csv(pos_146, quoting=csv.QUOTE_NONNUMERIC)
+# pos_146 = pos_146.to_numpy()
+# pos.append(pos_146)
+# pos_147 = pd.read_csv(pos_147, quoting=csv.QUOTE_NONNUMERIC)
+# pos_147 = pos_147.to_numpy()
+# pos.append(pos_147)
+# pos_148 = pd.read_csv(pos_148, quoting=csv.QUOTE_NONNUMERIC)
+# pos_148 = pos_148.to_numpy()
+# pos.append(pos_148)
+# pos_149 = pd.read_csv(pos_149, quoting=csv.QUOTE_NONNUMERIC)
+# pos_149 = pos_149.to_numpy()
+# pos.append(pos_149)
+# pos_150 = pd.read_csv(pos_150, quoting=csv.QUOTE_NONNUMERIC)
+# pos_150 = pos_150.to_numpy()
+# pos.append(pos_150)
+# # EVAL
 # pos_151 = pd.read_csv(pos_151, quoting=csv.QUOTE_NONNUMERIC)
 # pos_151 = pos_151.to_numpy()
 # pos.append(pos_151)
@@ -710,8 +707,6 @@ pos.append(pos_150)
 # pos_165 = pd.read_csv(pos_165, quoting=csv.QUOTE_NONNUMERIC)
 # pos_165 = pos_165.to_numpy()
 # pos.append(pos_165)
-
-# # EVAL
 # pos_166 = pd.read_csv(pos_166, quoting=csv.QUOTE_NONNUMERIC)
 # pos_166 = pos_166.to_numpy()
 # pos.append(pos_166)
@@ -757,88 +752,96 @@ pos.append(pos_150)
 # pos_180 = pd.read_csv(pos_180, quoting=csv.QUOTE_NONNUMERIC)
 # pos_180 = pos_180.to_numpy()
 # pos.append(pos_180)
-# pos_181 = pd.read_csv(pos_181, quoting=csv.QUOTE_NONNUMERIC)
-# pos_181 = pos_181.to_numpy()
-# pos.append(pos_181)
-# pos_182 = pd.read_csv(pos_182, quoting=csv.QUOTE_NONNUMERIC)
-# pos_182 = pos_182.to_numpy()
-# pos.append(pos_182)
-# pos_183 = pd.read_csv(pos_183, quoting=csv.QUOTE_NONNUMERIC)
-# pos_183 = pos_183.to_numpy()
-# pos.append(pos_183)
-# pos_184 = pd.read_csv(pos_184, quoting=csv.QUOTE_NONNUMERIC)
-# pos_184 = pos_184.to_numpy()
-# pos.append(pos_184)
-# pos_185 = pd.read_csv(pos_185, quoting=csv.QUOTE_NONNUMERIC)
-# pos_185 = pos_185.to_numpy()
-# pos.append(pos_185)
-# pos_186 = pd.read_csv(pos_186, quoting=csv.QUOTE_NONNUMERIC)
-# pos_186 = pos_186.to_numpy()
-# pos.append(pos_186)
-# pos_187 = pd.read_csv(pos_187, quoting=csv.QUOTE_NONNUMERIC)
-# pos_187 = pos_187.to_numpy()
-# pos.append(pos_187)
-# pos_188 = pd.read_csv(pos_188, quoting=csv.QUOTE_NONNUMERIC)
-# pos_188 = pos_188.to_numpy()
-# pos.append(pos_188)
-# pos_189 = pd.read_csv(pos_189, quoting=csv.QUOTE_NONNUMERIC)
-# pos_189 = pos_189.to_numpy()
-# pos.append(pos_189)
-# pos_190 = pd.read_csv(pos_190, quoting=csv.QUOTE_NONNUMERIC)
-# pos_190 = pos_190.to_numpy()
-# pos.append(pos_190)
-# pos_191 = pd.read_csv(pos_191, quoting=csv.QUOTE_NONNUMERIC)
-# pos_191 = pos_191.to_numpy()
-# pos.append(pos_191)
-# pos_192 = pd.read_csv(pos_192, quoting=csv.QUOTE_NONNUMERIC)
-# pos_192 = pos_192.to_numpy()
-# pos.append(pos_192)
-# pos_193 = pd.read_csv(pos_193, quoting=csv.QUOTE_NONNUMERIC)
-# pos_193 = pos_193.to_numpy()
-# pos.append(pos_193)
-# pos_194 = pd.read_csv(pos_194, quoting=csv.QUOTE_NONNUMERIC)
-# pos_194 = pos_194.to_numpy()
-# pos.append(pos_194)
-# pos_195 = pd.read_csv(pos_195, quoting=csv.QUOTE_NONNUMERIC)
-# pos_195 = pos_195.to_numpy()
-# pos.append(pos_195)
+# TEST
+pos_181 = pd.read_csv(pos_181, quoting=csv.QUOTE_NONNUMERIC)
+pos_181 = pos_181.to_numpy()
+pos.append(pos_181)
+pos_182 = pd.read_csv(pos_182, quoting=csv.QUOTE_NONNUMERIC)
+pos_182 = pos_182.to_numpy()
+pos.append(pos_182)
+pos_183 = pd.read_csv(pos_183, quoting=csv.QUOTE_NONNUMERIC)
+pos_183 = pos_183.to_numpy()
+pos.append(pos_183)
+pos_184 = pd.read_csv(pos_184, quoting=csv.QUOTE_NONNUMERIC)
+pos_184 = pos_184.to_numpy()
+pos.append(pos_184)
+pos_185 = pd.read_csv(pos_185, quoting=csv.QUOTE_NONNUMERIC)
+pos_185 = pos_185.to_numpy()
+pos.append(pos_185)
+pos_186 = pd.read_csv(pos_186, quoting=csv.QUOTE_NONNUMERIC)
+pos_186 = pos_186.to_numpy()
+pos.append(pos_186)
+pos_187 = pd.read_csv(pos_187, quoting=csv.QUOTE_NONNUMERIC)
+pos_187 = pos_187.to_numpy()
+pos.append(pos_187)
+pos_188 = pd.read_csv(pos_188, quoting=csv.QUOTE_NONNUMERIC)
+pos_188 = pos_188.to_numpy()
+pos.append(pos_188)
+pos_189 = pd.read_csv(pos_189, quoting=csv.QUOTE_NONNUMERIC)
+pos_189 = pos_189.to_numpy()
+pos.append(pos_189)
+pos_190 = pd.read_csv(pos_190, quoting=csv.QUOTE_NONNUMERIC)
+pos_190 = pos_190.to_numpy()
+pos.append(pos_190)
+pos_191 = pd.read_csv(pos_191, quoting=csv.QUOTE_NONNUMERIC)
+pos_191 = pos_191.to_numpy()
+pos.append(pos_191)
+pos_192 = pd.read_csv(pos_192, quoting=csv.QUOTE_NONNUMERIC)
+pos_192 = pos_192.to_numpy()
+pos.append(pos_192)
+pos_193 = pd.read_csv(pos_193, quoting=csv.QUOTE_NONNUMERIC)
+pos_193 = pos_193.to_numpy()
+pos.append(pos_193)
+pos_194 = pd.read_csv(pos_194, quoting=csv.QUOTE_NONNUMERIC)
+pos_194 = pos_194.to_numpy()
+pos.append(pos_194)
+pos_195 = pd.read_csv(pos_195, quoting=csv.QUOTE_NONNUMERIC)
+pos_195 = pos_195.to_numpy()
+pos.append(pos_195)
 
 human_spheres = rospy.Publisher('/Obstacle/human_spheres', Float64MultiArray, queue_size=1)
-
-# tempp = [0.3305, 1.3994, 0.5202, 0.4673, 1.4195, 0.1777, 0.4281, 1.5914, 0.3656, 0.3676,
-#         1.2356, 0.3280, 0.3376, 1.6435, 0.4713, 0.2321, 1.1748, 0.3232, 0.2470, 1.6956,
-#         0.5771, 0.0965, 1.1140, 0.3184, 0.1066, 1.6340, 0.6336, 0.0026, 1.2475, 0.3258,
-#         -0.0283, 1.5496,0.6999,-0.1230, 1.3546, 0.3561, 0.4077, 1.4069, 0.3855, 0.5101, 1.4274, -0.0056]
-# temp_2 = [1.47741000000000,1.62828000000000,0.457573000000000,1.32651000000000,1.58382000000000,0.136016000000000,1.43564000000000,1.42363000000000,0.267411000000000,1.31108000000000,1.76610000000000,0.274510000000000,1.42989000000000,1.39890000000000,0.120940000000000,1.28160000000000,1.77366000000000,0.129005000000000,1.42414000000000,1.37418000000000,-0.0255297000000000,1.25212000000000,1.78122000000000,-0.0164992000000000,1.41387000000000,1.36561000000000,-0.188362000000000,1.34662000000000,1.69880000000000,-0.121244000000000,1.40966000000000,1.36172000000000,-0.362055000000000,1.44297000000000,1.64521000000000,-0.250763000000000,1.37438000000000,1.59252000000000,0.346960000000000,1.31032000000000,1.57961000000000,-0.0515388000000000]
+future_temp = [0,0,0,0,0,0,0,0,0,0]   #0s
+# future_temp = [125,125,125,125,125,125,125,125,125,125] #0.5s
+# future_temp = [125,250,250,250,250,250,250,250,250,250] #1s
+# future_temp = [125,250,375,375,375,375,375,375,375,375] #1.5s
+# future_temp = [125,250,375,500,500,500,500,500,500,500] #2s
+# future_temp = [125,250,375,500,625,625,625,625,625,625] #2.5s
+# future_temp = [125,250,375,500,625,750,750,750,750,750] #3s
+# future_temp = [125,250,375,500,625,750,875,875,875,875] #3.5s
+# future_temp = [125,250,375,500,625,750,875,1000,1000,1000] #4s
+# future_temp = [125,250,375,500,625,750,875,1000,1125,1125] #4.5s
+# future_temp = [125,250,375,500,625,750,875,1000,1125,1250] #5s
 print("start")
 def main():
     global pos
     rospy.init_node('human_control', anonymous=True)
-    sleep_time = 0.1
-    # msg = rospy.wait_for_message("/HighController/start", Int32)
-    print("MSG")
-    msg = True
+    sleep_time = 0.0
+    msg = rospy.wait_for_message("/HighController/start", Int32)
+    # print("MSG")
+    # msg = True
     if(msg):
         d = 1.0
-        for l in range (10):
-            # time.sleep(sleep_time)
+        for l in range (5):
             for k in range (len(pos)):
-                print(l,k)
+                time.sleep(sleep_time)
                 temp = pos[k]
-                for i in range (len(temp)):
-                    point_array = [0]*43
+                print(l,k)
+                for i in range (len(temp)-future_temp[9]):
+                    point_array = [0]*463
+                    print(temp[i][3*0], future_temp[9], (temp[i+future_temp[9]][3*0]))
                     for a in range(14):
-                        # print(a, temp_2[3*a], temp_2[3*a+1], temp_2[3*a+2])
-                        # point_array[3*a] = (temp[i][3*a])+d
-                        # point_array[3*a+1] = (temp[i][3*a+1])+d
-                        # point_array[3*a+2] = (temp[i][3*a+2])
-                        # point_array[3*a] = 0.9
-                        # point_array[3*a+1] = 0.9
-                        # point_array[3*a+2] = 1.6
-                        point_array[3*a] = 5.0
-                        point_array[3*a+1] = 5.0
-                        point_array[3*a+2] = 1.2
+                        point_array[3*a] = (temp[i][3*a])+d
+                        point_array[3*a+1] = (temp[i][3*a+1])+d
+                        point_array[3*a+2] = (temp[i][3*a+2])
                     point_array[42] = k+1
+                    for f in range(10):
+                        for a in range(14):    
+                            point_array[f*42+43+3*a] = (temp[i+future_temp[f]][3*a])+d
+                            point_array[f*42+43+3*a+1] = (temp[i+future_temp[f]][3*a+1])+d
+                            point_array[f*42+43+3*a+2] = (temp[i+future_temp[f]][3*a+2])
+                            # print(f*14+a, point_array[f*42+43+3*a],point_array[f*42+43+3*a+1],point_array[f*42+43+3*a+2])
+                
+                    
                     obstacle_data = Float64MultiArray()
                     obstacle_data.data = point_array
                     human_spheres.publish(obstacle_data)

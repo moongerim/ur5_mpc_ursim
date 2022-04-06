@@ -22,7 +22,7 @@ from control_msgs.msg import *
 from trajectory_msgs.msg import *
 from sensor_msgs.msg import JointState
 from math import pi
-
+from std_msgs.msg import Float64MultiArray
 JOINT_NAMES = ['shoulder_pan_joint', 'shoulder_lift_joint', 'elbow_joint',
                'wrist_1_joint', 'wrist_2_joint', 'wrist_3_joint']
 # Q1 = [0,-1.5708,0,-1.5708,0,0]
@@ -34,8 +34,16 @@ Q_angle4 = [102*pi/180, -99*pi/180, -73*pi/180, -186*pi/180, 276*pi/180, 3*pi/18
 
 Q_angle5 = [-253*pi/180, -100*pi/180, -71*pi/180, -189*pi/180, -64*pi/180, 11*pi/180]
 client = None
+flag = 0
+def talker(data):
+    Q1 = data.data[0:6]
+    time = 2
+    flag = data.data[6]
+    if flag>1:
+        print("inside python file")
+        set_init_pose(Q1, time)
 
-def move1(Q1):
+def move1(Q1,time):
     global joints_pos
     g = FollowJointTrajectoryGoal()
     g.trajectory = JointTrajectory()
@@ -45,7 +53,7 @@ def move1(Q1):
         joints_pos = joint_states.position
         g.trajectory.points = [
             JointTrajectoryPoint(positions=joints_pos, velocities=[0]*6, time_from_start=rospy.Duration(0.0)),
-            JointTrajectoryPoint(positions=Q1, velocities=[0]*6, time_from_start=rospy.Duration(3.0))]
+            JointTrajectoryPoint(positions=Q1, velocities=[0]*6, time_from_start=rospy.Duration(time))]
             #JointTrajectoryPoint(positions=Q2, velocities=[0]*6, time_from_start=rospy.Duration(4.0)),
             #JointTrajectoryPoint(positions=Q_angle4, velocities=[0]*6, time_from_start=rospy.Duration(6.0))]
         client.send_goal(g)
@@ -56,7 +64,7 @@ def move1(Q1):
     except:
         raise
 
-def set_init_pose(Q1):
+def set_init_pose(Q1,time):
     global client
     try:
         # rospy.init_node("init_move", anonymous=True, disable_signals=True)
@@ -71,8 +79,16 @@ def set_init_pose(Q1):
             for i, name in enumerate(JOINT_NAMES):
                 JOINT_NAMES[i] = prefix + name
         print("This program makes the robot go to initial position")
-        move1(Q1)
+        move1(Q1,time)
     except KeyboardInterrupt:
         rospy.signal_shutdown("KeyboardInterrupt")
         raise
 
+def main():
+    rospy.init_node("init_move", anonymous=True)
+    # rate = rospy.Rate(20) #hz
+    while not rospy.is_shutdown():
+        rospy.Subscriber("/LowController/init", Float64MultiArray, talker)
+        rospy.spin()
+
+if __name__ == '__main__': main()

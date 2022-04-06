@@ -308,20 +308,20 @@ if __name__ == '__main__':
     # Change direction here:
     direction = 'BA'
     if direction == 'AB':
-        train_files = 1696
-        eval_files = 245
-        test_file = 'data_AB_test_29.csv'
+        train_files = 2704
+        eval_files = 516
+        test_file = 'data_AB_test_5.csv'
     else:
-        train_files = 1707
-        eval_files =244
-        test_file = 'data_BA_test_37.csv'
+        train_files = 2706
+        eval_files = 515
+        test_file = 'data_BA_test_5.csv'
     n_batch = 1000
 
     # Data loading:
-    data_dir = '/home/robot/workspaces/data5sec_2402'
+    data_dir = '/home/robot/workspaces/ur5_mpc_ursim/data_2403'
     os.chdir(data_dir)
     train_data = load_data(train_files,'train', direction)
-    random.shuffle(train_data)
+    # random.shuffle(train_data)
     x_train = train_data[:,0:48]
     y_train = train_data[:,48:54]
     print(len(x_train))
@@ -338,7 +338,7 @@ if __name__ == '__main__':
     dev = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     log_dir = main_dir+run_name
     os.chdir(log_dir)
-    n = [200,200,200,200]
+    n = [200,200,200]
     for i in range(len(n)):
         with open(network_log,  'a') as fd:
             wr = csv.writer(fd, dialect='excel')

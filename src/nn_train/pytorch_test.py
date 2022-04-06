@@ -70,11 +70,11 @@ class ENV:
             if self.start[0]==self.A[0]:
                 self.start = self.B
                 self.goal = self.A
-                model.load_state_dict(torch.load('20220316_232309/model.pth'))
+                model.load_state_dict(torch.load('20220331_002059/model.pth'))
             else:
                 self.start = self.A
                 self.goal = self.B
-                model.load_state_dict(torch.load('20220316_221250/model.pth'))
+                model.load_state_dict(torch.load('20220330_210412/model.pth'))
         return arrive
 
     def test(self, x_test):
@@ -121,7 +121,7 @@ class ENV:
             set_init_pose(self.start[0:6], 1)
             hello_str = "start"
             self.flag_pub.publish(hello_str)
-            self.threshold = 0.17
+            self.threshold = 0.15
             time.sleep(2)
         self.step()
     
@@ -146,7 +146,7 @@ class ENV:
         print("***saving***")
         write_mat('test_log/' + self.run_name,
                         {'actions': self.nn_actions,
-                        'joint_poses': self.joint_poses,
+                        'joint_positions': self.joint_poses,
                         'human_poses':self.human_poses,
                         'real_vels': self.real_vels,
                         'goal':self.goals,
@@ -163,14 +163,14 @@ if __name__ == '__main__':
     n = [200,200,200]
     model = MyModel(dev,48,6,n).to(dev)
     model.cuda()
-    rec_dir = '/home/robot/workspaces/ur5_mpc_ursim/src/nn_train/log/20220316_221250/'
+    rec_dir = '/home/robot/workspaces/ur5_mpc_ursim/src/nn_train/log/20220330_210412/'
     os.chdir(rec_dir)
     model.load_state_dict(torch.load('model.pth'))
     env = ENV(model,run_name,n)
     t = time.time()
     env.reset()
     i = 0
-    # save_iter = 0
+    save_iter = 0
     rate = rospy.Rate(40) #hz
     while not rospy.is_shutdown():
         # save_iter+=1
@@ -189,6 +189,7 @@ if __name__ == '__main__':
             env.step()
         
         rate.sleep()
+
     # env.save_log()
     
         
