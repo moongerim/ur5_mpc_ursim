@@ -7,7 +7,7 @@ from std_msgs.msg import Float64MultiArray, String
 import time
 from stream_tee import write_mat
 from initialization import set_init_pose
-
+import random
 class ENV:
     def __init__(self,run_name):
         rospy.Subscriber('/info', Float64MultiArray, self.callback)
@@ -29,8 +29,8 @@ class ENV:
     def done(self):
         arrive = False
         # print(self.max_diff)
-        if self.max_diff<self.threshold:
-            print("-----Arrived------")
+        if self.max_diff<0.001:
+            print("-----Arrived------", self.max_diff)
             arrive = True
         return arrive
 
@@ -41,13 +41,10 @@ class ENV:
         hello_str = "speedj(["+str(vel[0])+","+str(vel[1])+","+str(vel[2])+","+str(vel[3])+","+str(vel[4])+","+str(vel[5])+"],"+"5.0"+",0.1)" 
         # print(vel)
         self.pub.publish(hello_str)
-        elapsed_time = time.time() - self.t_total
         self.ctp.append(self.observation[0:21])
         self.human_poses.append(self.observation[21:63])
         self.joint_poses.append(self.observation[63:69])
-        # self.current = self.observation[63:69]
         self.goals.append(self.observation[69:75])
-        
         self.real_vels.append(self.observation[75:81])
         self.low_controller_solutions.append(self.observation[81:90])
         self.minimum_dist.append(self.observation[90:97])
@@ -58,31 +55,56 @@ class ENV:
         self.ctv.append(self.observation[129:150])
         self.lin_vel_limit.append(self.observation[150:157])
         self.file_n.append(self.observation[157])
-        # self.time.append(self.observation[158])
+        self.time.append(self.observation[158])
         self.ctv_linear.append(self.observation[159:166])
         self.max_diff = self.observation[166]
-        self.time.append(elapsed_time)
+
+    def init_choose(self):
+        self.init_poses[0] = random.uniform(self.goal[0]-0.2, self.goal[0]+0.2)
+        self.init_poses[1] = random.uniform(self.goal[1]-0.2, self.goal[1]+0.2)
+        self.init_poses[2] = random.uniform(self.goal[2]-0.2, self.goal[2]+0.2)
+        self.init_poses[3] = random.uniform(self.goal[3]-0.2, self.goal[3]+0.2)
+        self.init_poses[4] = random.uniform(self.goal[4]-0.2, self.goal[4]+0.2)
+        self.init_poses[5] = random.uniform(self.goal[5]-0.2, self.goal[5]+0.2)
+    
     def reset(self): 
         print("reset")
+        hello_str = "stop_human"
+        self.flag_pub.publish(hello_str)
+        time.sleep(1)
+        self.save_log(self.i)
+        self.i+=1
+        self.init_log_variables()
+        self.init_choose()
+        print(self.init_poses)
         if self.first<1:
             self.first+=1
-            self.threshold = 0.02
-            self.init_log_variables()
-            self.t_total = time.time()
+            set_init_pose(self.init_poses[0:6], 10)
+            time.sleep(11)
         else:
-            hello_str = "stop_human"
-            self.flag_pub.publish(hello_str)
-            # time.sleep(1)
+            set_init_pose(self.init_poses[0:6], 2)
+            time.sleep(2)
+        # self.init_log_variables()
+        hello_str = "start_human"
+        self.flag_pub.publish(hello_str)
+        # if self.first<1:
+        #     self.first+=1
+        #     self.threshold = 0.15
+        #     self.init_log_variables()
+        # else:
+        #     hello_str = "stop_human"
+        #     self.flag_pub.publish(hello_str)
+        #     time.sleep(1)
 
-            self.save_log(self.i)
-            self.i+=1
-            self.init_log_variables()
+        #     # self.save_log(self.i)
+        #     # self.i+=1
+        #     # self.init_log_variables()
 
-            # set_init_pose(self.goal[0:6], 4)
-            self.threshold = 0.02
-            time.sleep(1)
-            hello_str = "start_human"
-            self.flag_pub.publish(hello_str)
+        #     set_init_pose(self.goal[0:6], 4)
+        #     self.threshold = 0.15
+        #     time.sleep(5)
+        #     hello_str = "start_human"
+        #     self.flag_pub.publish(hello_str)
         self.step()
     
     def init_log_variables(self):
@@ -104,7 +126,8 @@ class ENV:
         self.ctv_linear = []
         self.arrive = False
         self.diff = 10
-        
+        self.init_poses = [0]*6
+
     def save_log(self,save_iter):
         rec_dir = '/home/robot/workspaces/ur5_mpc_ursim/'
         os.chdir(rec_dir)

@@ -49,6 +49,8 @@ class ENV:
         self.first = 0
         self.init_log_variables()
         self.total = 0
+        self.threshold_1 = 0.18
+        self.threshold_2 = 0.02
         
     def callback(self, data):
         self.observation = data.data[0:55]
@@ -64,17 +66,24 @@ class ENV:
         print(max_diff)
         rec_dir = '/home/robot/workspaces/ur5_mpc_ursim/src/nn_train/log/'
         os.chdir(rec_dir)
-        if max_diff<self.threshold:
+        if max_diff<self.threshold_1 and max_diff>self.threshold_2:
+            if self.start[0]==self.A[0]:
+                model.load_state_dict(torch.load('20220418_132547/model.pth'))
+            else:
+                model.load_state_dict(torch.load('20220416_175504/model.pth'))
+        if max_diff<self.threshold_2:
             print("-----Arrived------")
             arrive = True
             if self.start[0]==self.A[0]:
                 self.start = self.B
                 self.goal = self.A
-                model.load_state_dict(torch.load('20220331_002059/model.pth'))
+                # model.load_state_dict(torch.load('20220410_042614/model.pth'))
+                model.load_state_dict(torch.load('20220413_210952/model.pth'))
             else:
                 self.start = self.A
                 self.goal = self.B
-                model.load_state_dict(torch.load('20220330_210412/model.pth'))
+                # model.load_state_dict(torch.load('20220409_205027/model.pth'))
+                model.load_state_dict(torch.load('20220413_183838/model.pth'))
         return arrive
 
     def test(self, x_test):
@@ -109,20 +118,22 @@ class ENV:
             self.first+=1
             time.sleep(5)
             set_init_pose(self.start[0:6],6)
-            self.threshold = 0.5
+            # self.threshold = 0.5
             time.sleep(10)
             self.init_log_variables()
             self.t_total = time.time()
         else:
+            hello_str = "stop_human"
+            self.flag_pub.publish(hello_str)
             time.sleep(1)
             self.save_log(self.i)
             self.i+=1
             self.init_log_variables()
-            set_init_pose(self.start[0:6], 1)
-            hello_str = "start"
+            # set_init_pose(self.start[0:6], 1)
+            # self.threshold = 0.15
+            # time.sleep(2)
+            hello_str = "start_human"
             self.flag_pub.publish(hello_str)
-            self.threshold = 0.15
-            time.sleep(2)
         self.step()
     
     def init_log_variables(self):
@@ -163,7 +174,7 @@ if __name__ == '__main__':
     n = [200,200,200]
     model = MyModel(dev,48,6,n).to(dev)
     model.cuda()
-    rec_dir = '/home/robot/workspaces/ur5_mpc_ursim/src/nn_train/log/20220330_210412/'
+    rec_dir = '/home/robot/workspaces/ur5_mpc_ursim/src/nn_train/log/20220413_183838/'
     os.chdir(rec_dir)
     model.load_state_dict(torch.load('model.pth'))
     env = ENV(model,run_name,n)
@@ -171,10 +182,10 @@ if __name__ == '__main__':
     env.reset()
     i = 0
     save_iter = 0
-    rate = rospy.Rate(40) #hz
+    rate = rospy.Rate(20) #hz
     while not rospy.is_shutdown():
         # save_iter+=1
-        # if save_iter%5000==0:
+        # if save_iter%2000==0:
         #     env.save_log(save_iter)
 
         done = env.done()

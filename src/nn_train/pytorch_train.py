@@ -86,20 +86,14 @@ def test(model, x_test, y_test):
             predictions.append(model(seq_data))
     return predictions, real_data
 
-def load_data(n_files,datatype,direction):
+def load_data(n_files,datatype,filename):
 
     full_data = None
     for i in range(1, n_files):
         if datatype=='train':
-            if direction=='AB':
-                raw_data = np.loadtxt('data_AB_train_{}.csv'.format(i), skiprows = 1, delimiter=',')
-            else:
-                raw_data = np.loadtxt('data_BA_train_{}.csv'.format(i), skiprows = 1, delimiter=',')
+            raw_data = np.loadtxt('{}_train_{}.csv'.format(filename,i), skiprows = 1, delimiter=',')
         else:
-            if direction=='AB':
-                raw_data = np.loadtxt('data_AB_eval_{}.csv'.format(i), skiprows = 1, delimiter=',')
-            else:
-                raw_data = np.loadtxt('data_BA_eval_{}.csv'.format(i), skiprows = 1, delimiter=',')
+            raw_data = np.loadtxt('{}_eval_{}.csv'.format(filename,i), skiprows = 1, delimiter=',')
 
         if full_data is None:
             full_data = raw_data
@@ -107,12 +101,6 @@ def load_data(n_files,datatype,direction):
             full_data = np.concatenate((full_data, raw_data), axis=0)
     return full_data
 
-# def split_data(data):
-#     all_size = len(data)
-#     train_size = int(all_size*0.8)
-#     train_data = data[:train_size]
-#     eval_data = data[train_size:]
-#     return [train_data, eval_data]
 
 def visualize(predicted_data, real_data, logfile, x_test,loss1,loss2,directory):
     os.chdir(directory)
@@ -305,28 +293,38 @@ if __name__ == '__main__':
     eval_log = 'eval_log.csv'
     test_log = 'test_log.csv'
     network_log = 'net_log.csv'
-    # Change direction here:
-    direction = 'BA'
-    if direction == 'AB':
-        train_files = 2704
-        eval_files = 516
-        test_file = 'data_AB_test_5.csv'
-    else:
-        train_files = 2706
-        eval_files = 515
-        test_file = 'data_BA_test_5.csv'
-    n_batch = 1000
 
-    # Data loading:
-    data_dir = '/home/robot/workspaces/ur5_mpc_ursim/data_2403'
-    os.chdir(data_dir)
-    train_data = load_data(train_files,'train', direction)
-    # random.shuffle(train_data)
+    # Change filename here:
+    filename = 'data_to_B'
+    if filename =='data_to_A':
+        direction = '/home/robot/workspaces/Big_Data/mpc_log/20220415_143814'
+        train_files = 4811
+        eval_files = 917
+        test_file = 'data_to_A_test_5.csv'
+    if filename =='data_to_B':
+        direction = '/home/robot/workspaces/Big_Data/mpc_log/data_to_B'
+        train_files = 4811
+        eval_files = 913
+        test_file = 'data_to_B_test_5.csv'
+    if filename =='data_AB':
+        train_files = 3076
+        eval_files = 592
+        test_file = 'data_AB_test_5.csv'
+    if filename =='data_BA':
+        train_files = 3076
+        eval_files = 594
+        test_file = 'data_BA_test_5.csv'
+    
+    n_batch = 1000
+    print(direction)
+    os.chdir(direction)
+
+    train_data = load_data(train_files,'train', filename)
     x_train = train_data[:,0:48]
     y_train = train_data[:,48:54]
     print(len(x_train))
 
-    eval_data = load_data(eval_files,'eval', direction)
+    eval_data = load_data(eval_files,'eval', filename)
     random.shuffle(eval_data)
     x_eval = eval_data[:,0:48]
     y_eval = eval_data[:,48:54]
@@ -342,7 +340,7 @@ if __name__ == '__main__':
     for i in range(len(n)):
         with open(network_log,  'a') as fd:
             wr = csv.writer(fd, dialect='excel')
-            wr.writerow([n[i],direction])
+            wr.writerow([n[i],filename])
 
     model = MyModel(dev,48,6,n).to(dev)
     epoches = 500
@@ -352,7 +350,10 @@ if __name__ == '__main__':
     lower_loss = 1
     train_losses = []
     eval_losses = []
-    
+    # os.chdir('/home/robot/workspaces/ur5_mpc_ursim/src/nn_train/log/20220413_164248')
+    # model.cuda()
+    # model.load_state_dict(torch.load('model.pth'))
+
     for epoch in range(epoches):
         log_dir = main_dir+run_name
         os.chdir(log_dir)

@@ -226,21 +226,12 @@ class GoalFollower
     for (int i=0; i<560; i++)
     {
       human_sphere[i] = obstacle_data.data[i];
-      // printf("human rad 1=%f,%f,%f,%f,%f,%f,%f,%f,%f,%f\n", human_sphere[3], human_sphere[59], human_sphere[115],
-      // human_sphere[171],human_sphere[227],human_sphere[283],human_sphere[339],human_sphere[395],
-      // human_sphere[451],human_sphere[507]);
     }
-    // for (int i=0; i<140; i++){
-    //   printf("human %i = %f, %f, %f, %f\n", i, human_sphere[4*i], human_sphere[4*i+1], human_sphere[4*i+2], human_sphere[4*i+3]);
-    // }
-    
   }
 
   void change_states_msg(const std_msgs::Float64MultiArray::ConstPtr& msg) 
   { 
     for (int i=0; i<6; i++) joint_position[i] = msg->data[i];
-    // for (int i=0; i<6; i++) high_goal[i] = msg->data[i+12];
-    // max_diff = msg->data[18];
   }
 }; 
 
@@ -382,13 +373,14 @@ int main(int argc, char **argv)
           max_diff = abs(currentState_targetValue[i] - currentState_targetValue[i+6]); 
         }
       }
-      if (max_diff < 0.001) {
-        row_index = (row_index+1)%2;
+      if (max_diff < 0.02) {
+        // row_index = (row_index+1)%2;
         clock_t end = clock();
         double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
         printf("Arrived in %f sec\n", time_spent-1);
         begin = clock();
-        // myMpcSolver.reinitialize();
+        // sleep(2);
+        myMpcSolver.reinitialize();
       }
 
       local_val = 10000;

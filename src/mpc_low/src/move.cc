@@ -17,7 +17,7 @@ using namespace std;
 
 ofstream myfile;
 ofstream myfile_sep;
-int rti_num = 5;
+int rti_num = 10;
 
 MPC_solver myMpcSolver(rti_num);
 // double gazebo_time;
@@ -73,6 +73,7 @@ class GoalFollower
     ros::Publisher spheres_pub;
     ros::Publisher marker_pub;
     ros::Publisher init_pub;
+    ros::Publisher info_pub;
     double robot_spheres[7] = {0.15, 0.15, 0.15, 0.08, 0.08, 0.12, 0.1};
 
     double human_sphere[57]= {10.0517,   0.5220,   1.0895,   0.1500,
@@ -180,6 +181,10 @@ class GoalFollower
     	init_pub.publish(data);
 	    return;
     }
+    void SendInfo(const std_msgs::Float64MultiArray data){
+    	info_pub.publish(data);
+	    return;
+    }
 }; 
 
 int main(int argc, char **argv)
@@ -195,6 +200,9 @@ int main(int argc, char **argv)
   my_follower.spheres_pub = n.advertise<std_msgs::Float64MultiArray>("/LowController/spheres", 1);
   my_follower.marker_pub = n.advertise<visualization_msgs::Marker>("visualization_marker_hp", 10);
   my_follower.init_pub = n.advertise<std_msgs::Float64MultiArray>("/LowController/init", 10);
+
+  my_follower.info_pub = n.advertise<std_msgs::Float64MultiArray>("/info", 1);
+
   ROS_INFO("Goal default to: %.3f, %.3f, %.3f, %.3f, %.3f, %.3f", 
 	my_follower.goal[0], my_follower.goal[1], my_follower.goal[2],my_follower.goal[3], my_follower.goal[4], my_follower.goal[5]);
 
@@ -214,8 +222,8 @@ int main(int argc, char **argv)
   // min dist has 7 values for 10 test points:
   double min_dist[7] = {10000, 10000, 10000, 10000, 10000, 10000, 10000};
   ros::Rate loop_rate(20);
-  myfile.open("data_low.csv", ios::out); 
-  myfile_sep.open("data_3103/data_0.csv", ios::out);
+  // myfile.open("data_low.csv", ios::out); 
+  // myfile_sep.open("data_1404/data_0.csv", ios::out);
   int fileseq=0;
   string filename;
   clock_t begin = clock();
@@ -223,20 +231,22 @@ int main(int argc, char **argv)
   while (ros::ok())
   {
     printf("max diff=%f\n",my_follower.from_high[30]);
-    if(my_follower.from_high[30]<0.001){
-      // if(my_follower.from_high[30]<0.15){
+    // if(my_follower.from_high[30]<0.001){
+      if(my_follower.from_high[30]<0.02){
         printf("------------------Arrived---------------------\n");
         // std_msgs::Float64MultiArray init_data;
         // init_data.data.clear();
         // for (int i = 0; i < 6; i++) init_data.data.push_back(my_follower.goal[i]);
         // init_data.data.push_back(10);
         // my_follower.SendInitPose(init_data);
+        // my_follower.SendVelocity(init_data);
+        // sleep(5);
         myMpcSolver.reinitialize();
-        fileseq++;
-        myfile_sep.close();
-        filename = "data_3103/data_"+to_string(fileseq)+".csv";
-        myfile_sep.open(filename, ios::out);
-        sleep(2);
+        // fileseq++;
+        // myfile_sep.close();
+        // filename = "data_1404/data_"+to_string(fileseq)+".csv";
+        // myfile_sep.open(filename, ios::out);
+        // sleep(2);
       }
 
     double currentState_targetValue[71];
@@ -355,212 +365,29 @@ int main(int argc, char **argv)
 
     my_follower.SendVelocity(joint_vel_values);
 
-    // std_msgs::Float64MultiArray init_data;
-    // init_data.data.clear();
-    // for (int i = 0; i < 6; i++) init_data.data.push_back(my_follower.goal[i]);
-    // init_data.data.push_back(0);
-    // my_follower.SendInitPose(init_data);
-
-
-    // std_msgs::Float64MultiArray spheres_data;
-    // spheres_data.data.clear();
-    // for (int i = 0; i < 21; i++) {
-    //   spheres_data.data.push_back(ctp[i]);
-    // }
-    // my_follower.SendCTP(spheres_data);
-
-    // visualization_msgs::Marker points, line_strip, line_list;
-    // points.header.frame_id = line_strip.header.frame_id = line_list.header.frame_id = "/base_link";
-    // points.header.stamp = line_strip.header.stamp = line_list.header.stamp = ros::Time::now();
-    // points.ns = line_strip.ns = line_list.ns = "points_and_lines";
-    // points.action = line_strip.action = line_list.action = visualization_msgs::Marker::ADD;
-    // points.pose.orientation.w = line_strip.pose.orientation.w = line_list.pose.orientation.w = 1.0;
-    // points.id = 0;
-    // line_strip.id = 1;
-    // line_list.id = 2;
-    // points.type = visualization_msgs::Marker::POINTS;
-    // line_strip.type = visualization_msgs::Marker::LINE_STRIP;
-    // line_list.type = visualization_msgs::Marker::LINE_LIST;
-
-    // // POINTS markers use x and y scale for width/height respectively
-    // points.scale.x = 0.1;
-    // points.scale.y = 0.1;
-
-    // // LINE_STRIP/LINE_LIST markers use only the x component of scale, for the line width
-    // line_strip.scale.x = 0.1;
-    // line_list.scale.x = 0.1;
-    // points.color.r = 1.0f;
-    // points.color.a = 1.0;
-    // line_strip.color.r = 1.0;
-    // line_strip.color.a = 1.0;
-    // line_list.color.b = 1.0;
-    // line_list.color.a = 1.0;
-
-    // // Create the vertices for the points and lines
-    // for (int i = 0; i < 14; i++)
-    // {
-    //   geometry_msgs::Point p;
-    //   p.x = my_follower.human_sphere[i*4];
-    //   p.y = my_follower.human_sphere[i*4+1];
-    //   p.z = my_follower.human_sphere[i*4+2];
-    //   points.points.push_back(p);
-    //   line_strip.points.push_back(p);
-    //   // The line list needs two points for each line
-    //   line_list.points.push_back(p);
-    //   line_list.points.push_back(p);
-    // }
-
-    // my_follower.SendHP(points);
-    // my_follower.SendHP(line_strip);
-    // my_follower.SendHP(line_list);
     clock_t end = clock();
     double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
-      
-    // save data
-    if (myfile.is_open())
-	  {
-      // Cartesian positions of spheres on robot:
-      myfile <<ctp[0]<<" "<<ctp[1]<<" "<<ctp[2]<<" "<<ctp[3]<<" "<<ctp[4]<<" "<<ctp[5]<<" "<<ctp[6]<<" "<<ctp[7]<<" ";
-      myfile <<ctp[8]<<" "<<ctp[9]<<" "<<ctp[10]<<" " <<ctp[11]<< " " <<ctp[12]<<" " <<ctp[13]<<" " <<ctp[14]<<" ";
-      myfile <<ctp[15]<<" "<<ctp[16]<<" "<<ctp[17]<<" "<<ctp[18]<<" "<<ctp[19]<<" "<<ctp[20]<<" ";
-      // Positions of human spheres:
-      myfile <<my_follower.human_sphere[0]<<" "<<my_follower.human_sphere[1]<<" "<<my_follower.human_sphere[2]<<" ";
-      myfile <<my_follower.human_sphere[4]<<" "<<my_follower.human_sphere[5]<<" "<<my_follower.human_sphere[6]<<" ";
-      myfile <<my_follower.human_sphere[8]<<" "<<my_follower.human_sphere[9]<<" "<<my_follower.human_sphere[10]<<" ";
-      myfile <<my_follower.human_sphere[12]<<" "<<my_follower.human_sphere[13]<<" "<<my_follower.human_sphere[14]<<" ";
-      myfile <<my_follower.human_sphere[16]<<" "<<my_follower.human_sphere[17]<<" "<<my_follower.human_sphere[18]<<" ";
-      myfile <<my_follower.human_sphere[20]<<" "<<my_follower.human_sphere[21]<<" "<<my_follower.human_sphere[22]<<" ";
-      myfile <<my_follower.human_sphere[24]<<" "<<my_follower.human_sphere[25]<<" "<<my_follower.human_sphere[26]<<" ";
-      myfile <<my_follower.human_sphere[28]<<" "<<my_follower.human_sphere[29]<<" "<<my_follower.human_sphere[30]<<" ";
-      myfile <<my_follower.human_sphere[32]<<" "<<my_follower.human_sphere[33]<<" "<<my_follower.human_sphere[34]<<" ";
-      myfile <<my_follower.human_sphere[36]<<" "<<my_follower.human_sphere[37]<<" "<<my_follower.human_sphere[38]<<" ";
-      myfile <<my_follower.human_sphere[40]<<" "<<my_follower.human_sphere[41]<<" "<<my_follower.human_sphere[42]<<" ";
-      myfile <<my_follower.human_sphere[44]<<" "<<my_follower.human_sphere[45]<<" "<<my_follower.human_sphere[46]<<" ";
-      myfile <<my_follower.human_sphere[48]<<" "<<my_follower.human_sphere[49]<<" "<<my_follower.human_sphere[50]<<" ";
-      myfile <<my_follower.human_sphere[52]<<" "<<my_follower.human_sphere[53]<<" "<<my_follower.human_sphere[54]<<" ";
-      // joint angular positions 
-      myfile <<my_follower.joint_position[0]<<" "<<my_follower.joint_position[1]<<" "<<my_follower.joint_position[2]<<" ";
-      myfile <<my_follower.joint_position[3]<<" "<<my_follower.joint_position[4]<<" "<<my_follower.joint_position[5]<<" ";
-      // joint angular goal positions
-      myfile <<my_follower.goal[0]<<" "<<my_follower.goal[1]<<" "<<my_follower.goal[2]<<" ";
-      myfile <<my_follower.goal[3]<<" "<<my_follower.goal[4]<<" "<<my_follower.goal[5]<<" ";
-      // joint angular speed
-      myfile <<my_follower.joint_speed[0]<<" "<<my_follower.joint_speed[1]<<" "<<my_follower.joint_speed[2]<<" ";
-      myfile <<my_follower.joint_speed[3]<<" "<<my_follower.joint_speed[4]<<" "<<my_follower.joint_speed[5]<<" ";
-      // low level controller solutions
-      myfile <<solutions[0]<<" "<<solutions[1]<<" "<<solutions[2]<<" "<<solutions[3]<<" ";
-      myfile <<solutions[4]<<" "<<solutions[5]<<" "<<solutions[6]<<" "<<solutions[7]<<" "<<solutions[8]<<" ";
-      // minimum distances from spheres on robot to human spheres
-      myfile <<min_dist[0]<<" "<<min_dist[1]<<" "<<min_dist[2]<<" "<<min_dist[3]<<" "<<min_dist[4]<<" ";
-      myfile <<min_dist[5]<<" "<<min_dist[6]<<" ";
-      // smallest distance and linear vel scale values:
-      myfile <<smallest_dist<<" "<<lin_vell_scale<<" ";
-      // high level controller: 
-      // 0-12: solutions from high level controller
-      // 12-24: joint positions and goal
-      // 24-27: cartesian positions of the end effector
-      // 27-30: time, KKT, inv.marker
-      // 30: max distance to goal position
-      myfile <<my_follower.from_high[0]<<" "<<my_follower.from_high[1]<<" "<<my_follower.from_high[2]<<" ";
-      myfile <<my_follower.from_high[3]<<" "<<my_follower.from_high[4]<<" "<<my_follower.from_high[5]<<" "<<my_follower.from_high[6]<<" ";
-      myfile <<my_follower.from_high[7]<<" "<<my_follower.from_high[8]<<" "<<my_follower.from_high[9]<<" "<<my_follower.from_high[10]<<" ";
-      myfile <<my_follower.from_high[11]<<" "<<my_follower.from_high[12]<<" "<<my_follower.from_high[13]<<" "<<my_follower.from_high[14]<<" ";
-      myfile <<my_follower.from_high[15]<<" "<<my_follower.from_high[16]<<" "<<my_follower.from_high[17]<<" "<<my_follower.from_high[18]<<" ";
-      myfile <<my_follower.from_high[19]<<" "<<my_follower.from_high[20]<<" "<<my_follower.from_high[21]<<" "<<my_follower.from_high[22]<<" ";
-      myfile <<my_follower.from_high[23]<<" "<<my_follower.from_high[24]<<" "<<my_follower.from_high[25]<<" "<<my_follower.from_high[26]<<" ";
-      myfile <<my_follower.from_high[27]<<" "<<my_follower.from_high[28]<<" "<<my_follower.from_high[29]<<" ";
-      myfile <<ctv[0]<<" "<<ctv[1]<<" "<<ctv[2]<<" "<<ctv[3]<<" "<<ctv[4]<<" "<<ctv[5]<<" "<<ctv[6]<<" "<<ctv[7]<<" "<<ctv[8]<<" "<<ctv[9]<<" ";
-      myfile <<ctv[10]<<" "<<ctv[11]<<" "<<ctv[12]<<" "<<ctv[13]<<" "<<ctv[14]<<" "<<ctv[15]<<" "<<ctv[16]<<" "<<ctv[17]<<" "<<ctv[18]<<" "<<ctv[19]<<" ";
-      myfile <<ctv[20]<<" ";
-      // myfile <<my_follower.tp_vel_vrep[0]<<" "<<my_follower.tp_vel_vrep[1]<<" "<<my_follower.tp_vel_vrep[2]<<" ";
-      // myfile <<my_follower.tp_vel_vrep[3]<<" "<<my_follower.tp_vel_vrep[4]<<" "<<my_follower.tp_vel_vrep[5]<<" "<<my_follower.tp_vel_vrep[6]<<" ";
-      // myfile <<my_follower.tp_vel_vrep[7]<<" "<<my_follower.tp_vel_vrep[8]<<" "<<my_follower.tp_vel_vrep[9]<<" "<<my_follower.tp_vel_vrep[10]<<" ";
-      // myfile <<my_follower.tp_vel_vrep[11]<<" "<<my_follower.tp_vel_vrep[12]<<" "<<my_follower.tp_vel_vrep[13]<<" "<<my_follower.tp_vel_vrep[14]<<" ";
-      // myfile <<my_follower.tp_vel_vrep[15]<<" "<<my_follower.tp_vel_vrep[16]<<" "<<my_follower.tp_vel_vrep[17]<<" "<<my_follower.tp_vel_vrep[18]<<" ";
-      // myfile <<my_follower.tp_vel_vrep[19]<<" "<<my_follower.tp_vel_vrep[20]<<" "<<my_follower.tp_vel_vrep[21]<<" "<<my_follower.tp_vel_vrep[22]<<" ";
-      // myfile <<my_follower.tp_vel_vrep[23]<<" "<<my_follower.tp_vel_vrep[24]<<" "<<my_follower.tp_vel_vrep[25]<<" "<<my_follower.tp_vel_vrep[26]<<" ";
-      // myfile <<my_follower.tp_vel_vrep[27]<<" "<<my_follower.tp_vel_vrep[28]<<" "<<my_follower.tp_vel_vrep[29]<<" ";
-      myfile <<lin_vell_limit_arr[0]<<" "<<lin_vell_limit_arr[1]<<" "<<lin_vell_limit_arr[2]<<" ";
-      myfile <<lin_vell_limit_arr[3]<<" "<<lin_vell_limit_arr[4]<<" "<<lin_vell_limit_arr[5]<<" ";
-      myfile <<lin_vell_limit_arr[6]<<" ";
-      myfile <<my_follower.human_sphere[56]<<" "<< time_spent <<" "<<ctv_linear[0]<<" "<<ctv_linear[1]<<" "<<ctv_linear[2]<<" ";
-      myfile <<ctv_linear[3]<<" "<<ctv_linear[4]<<" "<<ctv_linear[5]<<" "<<ctv_linear[6]<<" "<<endl;
-       
-    } 
-    else cout << "Unable to open file";
-
-    // save data
-    if (myfile_sep.is_open())
-	  {
-      // Cartesian positions of spheres on robot:
-      myfile_sep <<ctp[0]<<" "<<ctp[1]<<" "<<ctp[2]<<" "<<ctp[3]<<" "<<ctp[4]<<" "<<ctp[5]<<" "<<ctp[6]<<" "<<ctp[7]<<" ";
-      myfile_sep <<ctp[8]<<" "<<ctp[9]<<" "<<ctp[10]<<" " <<ctp[11]<< " " <<ctp[12]<<" " <<ctp[13]<<" " <<ctp[14]<<" ";
-      myfile_sep <<ctp[15]<<" "<<ctp[16]<<" "<<ctp[17]<<" "<<ctp[18]<<" "<<ctp[19]<<" "<<ctp[20]<<" ";
-      // Positions of human spheres:
-      myfile_sep <<my_follower.human_sphere[0]<<" "<<my_follower.human_sphere[1]<<" "<<my_follower.human_sphere[2]<<" ";
-      myfile_sep <<my_follower.human_sphere[4]<<" "<<my_follower.human_sphere[5]<<" "<<my_follower.human_sphere[6]<<" ";
-      myfile_sep <<my_follower.human_sphere[8]<<" "<<my_follower.human_sphere[9]<<" "<<my_follower.human_sphere[10]<<" ";
-      myfile_sep <<my_follower.human_sphere[12]<<" "<<my_follower.human_sphere[13]<<" "<<my_follower.human_sphere[14]<<" ";
-      myfile_sep <<my_follower.human_sphere[16]<<" "<<my_follower.human_sphere[17]<<" "<<my_follower.human_sphere[18]<<" ";
-      myfile_sep <<my_follower.human_sphere[20]<<" "<<my_follower.human_sphere[21]<<" "<<my_follower.human_sphere[22]<<" ";
-      myfile_sep <<my_follower.human_sphere[24]<<" "<<my_follower.human_sphere[25]<<" "<<my_follower.human_sphere[26]<<" ";
-      myfile_sep <<my_follower.human_sphere[28]<<" "<<my_follower.human_sphere[29]<<" "<<my_follower.human_sphere[30]<<" ";
-      myfile_sep <<my_follower.human_sphere[32]<<" "<<my_follower.human_sphere[33]<<" "<<my_follower.human_sphere[34]<<" ";
-      myfile_sep <<my_follower.human_sphere[36]<<" "<<my_follower.human_sphere[37]<<" "<<my_follower.human_sphere[38]<<" ";
-      myfile_sep <<my_follower.human_sphere[40]<<" "<<my_follower.human_sphere[41]<<" "<<my_follower.human_sphere[42]<<" ";
-      myfile_sep <<my_follower.human_sphere[44]<<" "<<my_follower.human_sphere[45]<<" "<<my_follower.human_sphere[46]<<" ";
-      myfile_sep <<my_follower.human_sphere[48]<<" "<<my_follower.human_sphere[49]<<" "<<my_follower.human_sphere[50]<<" ";
-      myfile_sep <<my_follower.human_sphere[52]<<" "<<my_follower.human_sphere[53]<<" "<<my_follower.human_sphere[54]<<" ";
-      // joint angular positions 
-      myfile_sep <<my_follower.joint_position[0]<<" "<<my_follower.joint_position[1]<<" "<<my_follower.joint_position[2]<<" ";
-      myfile_sep <<my_follower.joint_position[3]<<" "<<my_follower.joint_position[4]<<" "<<my_follower.joint_position[5]<<" ";
-      // joint angular goal positions
-      myfile_sep <<my_follower.goal[0]<<" "<<my_follower.goal[1]<<" "<<my_follower.goal[2]<<" ";
-      myfile_sep <<my_follower.goal[3]<<" "<<my_follower.goal[4]<<" "<<my_follower.goal[5]<<" ";
-      // joint angular speed
-      myfile_sep <<my_follower.joint_speed[0]<<" "<<my_follower.joint_speed[1]<<" "<<my_follower.joint_speed[2]<<" ";
-      myfile_sep <<my_follower.joint_speed[3]<<" "<<my_follower.joint_speed[4]<<" "<<my_follower.joint_speed[5]<<" ";
-      // low level controller solutions
-      myfile_sep <<solutions[0]<<" "<<solutions[1]<<" "<<solutions[2]<<" "<<solutions[3]<<" ";
-      myfile_sep <<solutions[4]<<" "<<solutions[5]<<" "<<solutions[6]<<" "<<solutions[7]<<" "<<solutions[8]<<" ";
-      // minimum distances from spheres on robot to human spheres
-      myfile_sep <<min_dist[0]<<" "<<min_dist[1]<<" "<<min_dist[2]<<" "<<min_dist[3]<<" "<<min_dist[4]<<" ";
-      myfile_sep <<min_dist[5]<<" "<<min_dist[6]<<" ";
-      // smallest distance and linear vel scale values:
-      myfile_sep <<smallest_dist<<" "<<lin_vell_scale<<" ";
-      // high level controller: 
-      // 0-12: solutions from high level controller
-      // 12-24: joint positions and goal
-      // 24-27: cartesian positions of the end effector
-      // 27-30: time, KKT, inv.marker
-      // 30: max distance to goal position
-      myfile_sep <<my_follower.from_high[0]<<" "<<my_follower.from_high[1]<<" "<<my_follower.from_high[2]<<" ";
-      myfile_sep <<my_follower.from_high[3]<<" "<<my_follower.from_high[4]<<" "<<my_follower.from_high[5]<<" "<<my_follower.from_high[6]<<" ";
-      myfile_sep <<my_follower.from_high[7]<<" "<<my_follower.from_high[8]<<" "<<my_follower.from_high[9]<<" "<<my_follower.from_high[10]<<" ";
-      myfile_sep <<my_follower.from_high[11]<<" "<<my_follower.from_high[12]<<" "<<my_follower.from_high[13]<<" "<<my_follower.from_high[14]<<" ";
-      myfile_sep <<my_follower.from_high[15]<<" "<<my_follower.from_high[16]<<" "<<my_follower.from_high[17]<<" "<<my_follower.from_high[18]<<" ";
-      myfile_sep <<my_follower.from_high[19]<<" "<<my_follower.from_high[20]<<" "<<my_follower.from_high[21]<<" "<<my_follower.from_high[22]<<" ";
-      myfile_sep <<my_follower.from_high[23]<<" "<<my_follower.from_high[24]<<" "<<my_follower.from_high[25]<<" "<<my_follower.from_high[26]<<" ";
-      myfile_sep <<my_follower.from_high[27]<<" "<<my_follower.from_high[28]<<" "<<my_follower.from_high[29]<<" ";
-      myfile_sep <<ctv[0]<<" "<<ctv[1]<<" "<<ctv[2]<<" "<<ctv[3]<<" "<<ctv[4]<<" "<<ctv[5]<<" "<<ctv[6]<<" "<<ctv[7]<<" "<<ctv[8]<<" "<<ctv[9]<<" ";
-      myfile_sep <<ctv[10]<<" "<<ctv[11]<<" "<<ctv[12]<<" "<<ctv[13]<<" "<<ctv[14]<<" "<<ctv[15]<<" "<<ctv[16]<<" "<<ctv[17]<<" "<<ctv[18]<<" "<<ctv[19]<<" ";
-      myfile_sep <<ctv[20]<<" ";
-      // myfile_sep <<my_follower.tp_vel_vrep[0]<<" "<<my_follower.tp_vel_vrep[1]<<" "<<my_follower.tp_vel_vrep[2]<<" ";
-      // myfile_sep <<my_follower.tp_vel_vrep[3]<<" "<<my_follower.tp_vel_vrep[4]<<" "<<my_follower.tp_vel_vrep[5]<<" "<<my_follower.tp_vel_vrep[6]<<" ";
-      // myfile_sep <<my_follower.tp_vel_vrep[7]<<" "<<my_follower.tp_vel_vrep[8]<<" "<<my_follower.tp_vel_vrep[9]<<" "<<my_follower.tp_vel_vrep[10]<<" ";
-      // myfile_sep <<my_follower.tp_vel_vrep[11]<<" "<<my_follower.tp_vel_vrep[12]<<" "<<my_follower.tp_vel_vrep[13]<<" "<<my_follower.tp_vel_vrep[14]<<" ";
-      // myfile_sep <<my_follower.tp_vel_vrep[15]<<" "<<my_follower.tp_vel_vrep[16]<<" "<<my_follower.tp_vel_vrep[17]<<" "<<my_follower.tp_vel_vrep[18]<<" ";
-      // myfile_sep <<my_follower.tp_vel_vrep[19]<<" "<<my_follower.tp_vel_vrep[20]<<" "<<my_follower.tp_vel_vrep[21]<<" "<<my_follower.tp_vel_vrep[22]<<" ";
-      // myfile_sep <<my_follower.tp_vel_vrep[23]<<" "<<my_follower.tp_vel_vrep[24]<<" "<<my_follower.tp_vel_vrep[25]<<" "<<my_follower.tp_vel_vrep[26]<<" ";
-      // myfile_sep <<my_follower.tp_vel_vrep[27]<<" "<<my_follower.tp_vel_vrep[28]<<" "<<my_follower.tp_vel_vrep[29]<<" ";
-      myfile_sep <<lin_vell_limit_arr[0]<<" "<<lin_vell_limit_arr[1]<<" "<<lin_vell_limit_arr[2]<<" ";
-      myfile_sep <<lin_vell_limit_arr[3]<<" "<<lin_vell_limit_arr[4]<<" "<<lin_vell_limit_arr[5]<<" ";
-      myfile_sep <<lin_vell_limit_arr[6]<<" ";
-      myfile_sep <<my_follower.human_sphere[56]<<" "<< time_spent <<" "<<ctv_linear[0]<<" "<<ctv_linear[1]<<" "<<ctv_linear[2]<<" ";
-      myfile_sep <<ctv_linear[3]<<" "<<ctv_linear[4]<<" "<<ctv_linear[5]<<" "<<ctv_linear[6]<<" "<<endl;
-       
-    } 
-    else cout << "Unable to open file";
+    
+    // data sending
+    std_msgs::Float64MultiArray whole_data;
+    whole_data.data.clear();
+    for (int i = 0; i < 21; i++) whole_data.data.push_back(ctp[i]);
+    for (int i = 0; i < 14; i++) for(int j = 0; j < 3; j++)whole_data.data.push_back(my_follower.human_sphere[i*4+j]);
+    for (int i = 0; i < 6; i++) whole_data.data.push_back(my_follower.joint_position[i]);
+    for (int i = 0; i < 6; i++) whole_data.data.push_back(my_follower.goal[i]);
+    for (int i = 0; i < 6; i++) whole_data.data.push_back(my_follower.joint_speed[i]);
+    for (int i = 0; i < 9; i++) whole_data.data.push_back(solutions[i]);
+    for (int i = 0; i < 7; i++) whole_data.data.push_back(min_dist[i]);
+    whole_data.data.push_back(smallest_dist);
+    whole_data.data.push_back(lin_vell_scale);
+    for (int i = 0; i < 30; i++) whole_data.data.push_back(my_follower.from_high[i]);
+    for (int i = 0; i < 21; i++) whole_data.data.push_back(ctv[i]);
+    for (int i = 0; i < 7; i++) whole_data.data.push_back(lin_vell_limit_arr[i]);
+    whole_data.data.push_back(my_follower.human_sphere[56]);
+    whole_data.data.push_back(time_spent);
+    for (int i = 0; i < 7; i++) whole_data.data.push_back(ctv_linear[i]);
+    whole_data.data.push_back(my_follower.from_high[30]);
+    my_follower.SendInfo(whole_data);
 
     ros::spinOnce();
     loop_rate.sleep();

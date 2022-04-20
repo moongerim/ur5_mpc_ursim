@@ -71,12 +71,20 @@ pos.append(pos_150)
 human_spheres = rospy.Publisher('/human', Float64MultiArray, queue_size=1)
 
 print("start")
+condition_h = 1
+def human_condition(data):
+    global condition_h
+    if data.data == 'stop_human':
+        condition_h = 1
+    else:
+        condition_h = 0
 
 def main():
-    global pos, position, velocity
+    global pos, position, velocity, condition_h
     rospy.init_node('human_control', anonymous=True)
     # sleep_time = 0
     msg = rospy.wait_for_message("/flag", String)
+    rospy.Subscriber("/flag", String, human_condition)
     # msg = True
     if(msg):
         # time.sleep(2)
@@ -89,19 +97,14 @@ def main():
                     point_array[3*a] = (temp[i][3*a])+1.0
                     point_array[3*a+1] = (temp[i][3*a+1])+1.0
                     point_array[3*a+2] = (temp[i][3*a+2])-1.2
-                    # point_array[3*a] = 0.0
-                    # point_array[3*a+1] = 4.0
-                    # point_array[3*a+2] = 0.0
-                    # point_array[3*a] = 0.9
-                    # point_array[3*a+1] = 0.9
-                    # point_array[3*a+2] = 0.3
-                    # point_array[3*a] = 3.0
-                    # point_array[3*a+1] = 3.0
-                    # point_array[3*a+2] = 0.0
                 point_array[42] = k+1
                 obstacle_data = Float64MultiArray()
                 obstacle_data.data = point_array
-                human_spheres.publish(obstacle_data)
+                if condition_h==0: 
+                    human_spheres.publish(obstacle_data)
+                else:
+                    time.sleep(0.05)
+                    # print("sleep human")
                 # rospy.loginfo(obstacle_data)
                 time.sleep(0.004)
         rospy.spin()
